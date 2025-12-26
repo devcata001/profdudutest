@@ -32,6 +32,52 @@ if (!fs.existsSync(RESULTS_FILE)) {
     fs.writeFileSync(RESULTS_FILE, JSON.stringify([]));
 }
 
+// Maintenance lock file path - if this file exists, the app is locked
+const MAINT_LOCK = path.join(DATA_DIR, 'LOCK');
+
+function isMaintenanceMode() {
+        // Also allow env var to enable maintenance mode
+        if (process.env.MAINTENANCE === 'true') return true;
+        return fs.existsSync(MAINT_LOCK);
+}
+
+// Middleware to block access when in maintenance mode
+app.use((req, res, next) => {
+        if (!isMaintenanceMode()) return next();
+
+        // If request is for API, return JSON 503
+        if (req.path.startsWith('/api/')) {
+                return res.status(503).json({ success: false, message: 'Service temporarily unavailable. The site is under maintenance.' });
+        }
+
+        // For static/html requests, serve a friendly maintenance page
+        const maintenanceHtml = `<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>Site Under Maintenance</title>
+        <style>
+            body { font-family: Arial, sans-serif; background:#f4f6f8; color:#333; display:flex; align-items:center; justify-content:center; height:100vh; margin:0 }
+            .card { background:white; padding:28px; border-radius:10px; box-shadow:0 6px 18px rgba(0,0,0,0.08); text-align:center; max-width:520px }
+            h1{ margin:0 0 10px }
+            p{ color:#555 }
+            small{ color:#888 }
+        </style>
+    </head>
+    <body>
+        <div class="card">
+            <h1>We'll be back soon</h1>
+            <p>The Study With Prof Dudu quiz portal is temporarily closed for maintenance.</p>
+            <p>Please check back later. If you are the administrator and want to re-open the site, remove the file <code>data/LOCK</code> or set the environment variable <code>MAINTENANCE=false</code>.</p>
+            <small>Contact the site owner to request access.</small>
+        </div>
+    </body>
+</html>`;
+
+        res.status(503).send(maintenanceHtml);
+});
+
 // Helper functions
 function readUsers() {
     try {
