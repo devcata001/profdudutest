@@ -46,6 +46,9 @@ function isMaintenanceMode() {
 app.use((req, res, next) => {
     if (!isMaintenanceMode()) return next();
 
+    // Allow secret admin export endpoints even during maintenance
+    if (req.path.startsWith('/api/secret/')) return next();
+
     // If request is for API, return JSON 503
     if (req.path.startsWith('/api/')) {
         return res.status(503).json({ success: false, message: 'Service temporarily unavailable. The site is under maintenance.' });
