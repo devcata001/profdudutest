@@ -79,6 +79,49 @@ app.use((req, res, next) => {
     res.status(503).send(maintenanceHtml);
 });
 
+// =====================================
+// SECRET ADMIN EXPORT (bypasses maintenance mode)
+// =====================================
+const ADMIN_SECRET = process.env.ADMIN_SECRET || 'profdudu2025secret';
+
+// Export all data - works even in maintenance mode
+// Usage: /api/secret/export?key=profdudu2025secret
+app.get('/api/secret/export', (req, res) => {
+    if (req.query.key !== ADMIN_SECRET) {
+        return res.status(401).json({ success: false, message: 'Invalid key' });
+    }
+
+    const users = readUsers().map(({ password, ...u }) => u); // Remove passwords
+    const results = readResults();
+
+    res.json({
+        exportDate: new Date().toISOString(),
+        totalUsers: users.length,
+        totalResults: results.length,
+        users,
+        results
+    });
+});
+
+// Export as CSV - works even in maintenance mode
+// Usage: /api/secret/export-csv?key=profdudu2025secret
+app.get('/api/secret/export-csv', (req, res) => {
+    if (req.query.key !== ADMIN_SECRET) {
+        return res.status(401).json({ success: false, message: 'Invalid key' });
+    }
+
+    const results = readResults();
+
+    let csv = 'Name,Email,Category,Score,Total Questions,Percentage,Time Spent (min),Date\n';
+    results.forEach(r => {
+        csv += `"${r.userName}","${r.userEmail}","${r.category}",${r.totalScore},${r.totalQuestions},${r.percentage}%,${r.timeSpent || 'N/A'},"${r.date}"\n`;
+    });
+
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename=quiz_results.csv');
+    res.send(csv);
+});
+
 // Helper functions
 function readUsers() {
     try {
