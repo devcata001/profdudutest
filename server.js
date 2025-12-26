@@ -36,22 +36,23 @@ if (!fs.existsSync(RESULTS_FILE)) {
 const MAINT_LOCK = path.join(DATA_DIR, 'LOCK');
 
 function isMaintenanceMode() {
-        // Also allow env var to enable maintenance mode
-        if (process.env.MAINTENANCE === 'true') return true;
-        return fs.existsSync(MAINT_LOCK);
+    // APP IS LOCKED BY DEFAULT - set MAINTENANCE=false to unlock
+    // This ensures the app stays locked until you explicitly open it
+    if (process.env.MAINTENANCE === 'false') return false;
+    return true; // Locked by default
 }
 
 // Middleware to block access when in maintenance mode
 app.use((req, res, next) => {
-        if (!isMaintenanceMode()) return next();
+    if (!isMaintenanceMode()) return next();
 
-        // If request is for API, return JSON 503
-        if (req.path.startsWith('/api/')) {
-                return res.status(503).json({ success: false, message: 'Service temporarily unavailable. The site is under maintenance.' });
-        }
+    // If request is for API, return JSON 503
+    if (req.path.startsWith('/api/')) {
+        return res.status(503).json({ success: false, message: 'Service temporarily unavailable. The site is under maintenance.' });
+    }
 
-        // For static/html requests, serve a friendly maintenance page
-        const maintenanceHtml = `<!doctype html>
+    // For static/html requests, serve a friendly maintenance page
+    const maintenanceHtml = `<!doctype html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -75,7 +76,7 @@ app.use((req, res, next) => {
     </body>
 </html>`;
 
-        res.status(503).send(maintenanceHtml);
+    res.status(503).send(maintenanceHtml);
 });
 
 // Helper functions
