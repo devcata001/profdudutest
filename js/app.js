@@ -164,6 +164,14 @@ function logout() {
 }
 
 async function showCategorySection() {
+    // Enforce device lock even if somehow reached directly
+    if (localStorage.getItem('profdudu_device_locked') === '1') {
+        document.getElementById('authSection').classList.add('d-none');
+        document.getElementById('categorySection').classList.add('d-none');
+        document.getElementById('deviceLockedSection').classList.remove('d-none');
+        return;
+    }
+
     document.getElementById('authSection').classList.add('d-none');
     document.getElementById('categorySection').classList.remove('d-none');
 
@@ -186,30 +194,32 @@ async function showCategorySection() {
             document.getElementById('attemptedMessage').textContent =
                 `You have already completed the ${userResult.category.toUpperCase()} quiz with a score of ${userResult.totalScore}/${userResult.totalQuestions} (${userResult.percentage}%).`;
 
-            // Disable both cards
+            // Disable all cards
             document.getElementById('scienceCard').classList.add('disabled');
             document.getElementById('artsCard').classList.add('disabled');
+            document.getElementById('commercialCard').classList.add('disabled');
         } else {
             document.getElementById('alreadyAttempted').classList.add('d-none');
 
             if (freshUser && freshUser.category) {
-                // User started but didn't finish - lock the other category
-                if (freshUser.category === 'science') {
-                    document.getElementById('artsCard').classList.add('disabled');
-                    document.getElementById('scienceCard').classList.remove('disabled');
-                } else {
-                    document.getElementById('scienceCard').classList.add('disabled');
-                    document.getElementById('artsCard').classList.remove('disabled');
-                }
+                // User started but didn't finish - lock the other categories
+                ['science', 'arts', 'commercial'].forEach(cat => {
+                    const el = document.getElementById(cat + 'Card');
+                    if (el) el.classList.add('disabled');
+                });
+                const activeEl = document.getElementById(freshUser.category + 'Card');
+                if (activeEl) activeEl.classList.remove('disabled');
             } else {
                 document.getElementById('scienceCard').classList.remove('disabled');
                 document.getElementById('artsCard').classList.remove('disabled');
+                document.getElementById('commercialCard').classList.remove('disabled');
             }
         }
     } catch (error) {
         console.error('Error checking user status:', error);
         document.getElementById('scienceCard').classList.remove('disabled');
         document.getElementById('artsCard').classList.remove('disabled');
+        document.getElementById('commercialCard').classList.remove('disabled');
     }
 }
 
@@ -272,7 +282,7 @@ function updateQuestionNavigator() {
             btn.classList.add('current');
         }
 
-        if (userAnswers[index] !== undefined) {
+        if (userAnswers[index] !== undefined && userAnswers[index] !== '') {
             btn.classList.add('answered');
         }
     });
@@ -298,17 +308,45 @@ function loadQuestion(index) {
     const optionsContainer = document.getElementById('optionsContainer');
     optionsContainer.innerHTML = '';
 
-    const letters = ['A', 'B', 'C', 'D'];
-    question.options.forEach((option, i) => {
-        const btn = document.createElement('button');
-        btn.className = 'option-btn';
-        if (userAnswers[index] === letters[i]) {
-            btn.classList.add('selected');
-        }
-        btn.innerHTML = `<span class="option-letter">${letters[i]}</span><span class="option-text">${option}</span>`;
-        btn.onclick = () => selectAnswer(letters[i]);
-        optionsContainer.appendChild(btn);
-    });
+    if (question.type === 'structural') {
+        // Structural question — text input
+        const wrapper = document.createElement('div');
+        wrapper.className = 'structural-wrapper';
+
+        const label = document.createElement('p');
+        label.className = 'structural-label';
+        label.innerHTML = '<i class="fas fa-pencil-alt me-2"></i>Type your answer below:';
+
+        const textarea = document.createElement('textarea');
+        textarea.className = 'structural-input';
+        textarea.placeholder = 'Enter your answer here...';
+        textarea.rows = 3;
+        textarea.value = userAnswers[index] || '';
+        textarea.addEventListener('input', () => {
+            userAnswers[index] = textarea.value.trim() ? textarea.value : undefined;
+            updateQuestionNavigator();
+        });
+
+        wrapper.appendChild(label);
+        wrapper.appendChild(textarea);
+        optionsContainer.appendChild(wrapper);
+
+        // Auto-focus the textarea
+        setTimeout(() => textarea.focus(), 50);
+    } else {
+        // MCQ question — option buttons
+        const letters = ['A', 'B', 'C', 'D', 'E'];
+        question.options.forEach((option, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            if (userAnswers[index] === letters[i]) {
+                btn.classList.add('selected');
+            }
+            btn.innerHTML = `<span class="option-letter">${letters[i]}</span><span class="option-text">${option}</span>`;
+            btn.onclick = () => selectAnswer(letters[i]);
+            optionsContainer.appendChild(btn);
+        });
+    }
 
     // Update navigation buttons
     document.getElementById('prevBtn').disabled = index === 0;
@@ -331,7 +369,7 @@ function selectAnswer(answer) {
     const buttons = document.querySelectorAll('.option-btn');
     buttons.forEach(btn => btn.classList.remove('selected'));
 
-    const letters = ['A', 'B', 'C', 'D'];
+    const letters = ['A', 'B', 'C', 'D', 'E'];
     const index = letters.indexOf(answer);
     if (index !== -1) {
         buttons[index].classList.add('selected');
@@ -424,6 +462,8 @@ async function confirmSubmit() {
     // Save results to server
     try {
         await apiCall('/api/results', 'POST', results);
+        // Lock this device — no account can re-sit the exam in this browser
+        localStorage.setItem('profdudu_device_locked', '1');
     } catch (error) {
         console.error('Error saving results:', error);
         showToast('Warning', 'Could not save results to server', 'warning');
@@ -444,12 +484,30 @@ function calculateResults() {
         subjectTotals[subjectKey] = questionsData[currentCategory][subjectKey].questions.length;
     }
 
+    // Helper: normalize text for structural comparison
+    function normalizeAns(str) {
+        return (str || '').trim().toLowerCase().replace(/\s+/g, ' ').replace(/[.,;:!?]+$/, '');
+    }
+
     // Calculate scores
     allQuestions.forEach((question, index) => {
         const userAnswer = userAnswers[index];
-        const correctAnswer = question.answer;
+        let isCorrect = false;
 
-        if (userAnswer === correctAnswer) {
+        if (question.type === 'structural') {
+            const userNorm = normalizeAns(userAnswer);
+            if (userNorm) {
+                isCorrect = question.acceptableAnswers.some(a => {
+                    const aNorm = normalizeAns(a);
+                    // Accept if exact match, or user's answer contains the key phrase
+                    return userNorm === aNorm || userNorm.includes(aNorm);
+                });
+            }
+        } else {
+            isCorrect = userAnswer === question.answer;
+        }
+
+        if (isCorrect) {
             totalScore++;
             subjectScores[question.subject]++;
         }
@@ -545,6 +603,13 @@ function showResults(results) {
 // ============================================
 
 document.addEventListener('DOMContentLoaded', function () {
+    // Check device-level lock first (prevents any account on this browser from re-sitting)
+    if (localStorage.getItem('profdudu_device_locked') === '1') {
+        document.getElementById('authSection').classList.add('d-none');
+        document.getElementById('deviceLockedSection').classList.remove('d-none');
+        return; // Stop all further init
+    }
+
     // Check if user is already logged in
     const savedUser = sessionStorage.getItem('profdudu_currentUser');
     if (savedUser) {

@@ -46,6 +46,35 @@
     <!-- Main Content -->
     <div class="main-content">
         <div class="container">
+
+            <!-- Device Locked Screen -->
+            <div id="deviceLockedSection" class="d-none fade-in">
+                <div class="row justify-content-center align-items-center min-vh-100">
+                    <div class="col-11 col-sm-8 col-md-6 col-lg-5 col-xl-4">
+                        <div class="text-center mb-4 text-white">
+                            <div class="logo-circle mx-auto mb-3" style="background:rgba(255,255,255,0.15)">
+                                <i class="fas fa-lock fa-3x"></i>
+                            </div>
+                            <h1 class="display-6 fw-bold">Access Denied</h1>
+                            <p class="opacity-75">Study With Prof Dudu Quiz Portal</p>
+                        </div>
+                        <div class="auth-card text-center">
+                            <div class="mb-3">
+                                <span style="font-size:3rem;">&#128274;</span>
+                            </div>
+                            <h4 class="fw-bold text-danger mb-3">Device Already Used</h4>
+                            <p class="text-muted mb-0">
+                                This device has already been used to sit this examination.
+                            </p>
+                            <p class="text-muted mt-2">
+                                Each device may only take the exam <strong>once</strong>.
+                                If you believe this is an error, please contact your supervisor.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Auth Section -->
             <div id="authSection" class="fade-in">
                 <div class="row justify-content-center align-items-center min-vh-100">
@@ -144,7 +173,7 @@
 
                     <div class="row justify-content-center g-4">
                         <!-- Science Card -->
-                        <div class="col-12 col-md-6 col-lg-5">
+                        <div class="col-12 col-md-6 col-lg-4">
                             <div id="scienceCard" class="category-card science-card">
                                 <div class="card-shine"></div>
                                 <div class="category-content">
@@ -168,7 +197,7 @@
                                     </div>
 
                                     <div class="question-count mb-4">
-                                        <span class="count-number">50</span>
+                                        <span class="count-number">100</span>
                                         <span class="count-text">Questions</span>
                                     </div>
 
@@ -184,7 +213,7 @@
                         </div>
 
                         <!-- Arts Card -->
-                        <div class="col-12 col-md-6 col-lg-5">
+                        <div class="col-12 col-md-6 col-lg-4">
                             <div id="artsCard" class="category-card arts-card">
                                 <div class="card-shine"></div>
                                 <div class="category-content">
@@ -205,12 +234,52 @@
                                     </div>
 
                                     <div class="question-count mb-4">
-                                        <span class="count-number">40</span>
+                                        <span class="count-number">100</span>
                                         <span class="count-text">Questions</span>
                                     </div>
 
                                     <button class="btn btn-arts btn-lg w-100" onclick="startQuiz('arts')">
                                         <i class="fas fa-rocket me-2"></i>Start Arts Quiz
+                                    </button>
+                                </div>
+                                <div class="locked-overlay">
+                                    <i class="fas fa-lock fa-3x mb-3"></i>
+                                    <h4>LOCKED</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Commercial Card -->
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div id="commercialCard" class="category-card commercial-card">
+                                <div class="card-shine"></div>
+                                <div class="category-content">
+                                    <div class="category-icon-wrapper commercial-icon-bg">
+                                        <i class="fas fa-chart-line fa-3x"></i>
+                                    </div>
+                                    <h2 class="mt-4 mb-3 fw-bold">Commercial</h2>
+                                    <p class="text-muted mb-4">Master business, finance and commerce</p>
+
+                                    <div class="subjects-grid mb-4">
+                                        <span class="subject-tag commercial-tag"><i
+                                                class="fas fa-calculator me-1"></i>Maths</span>
+                                        <span class="subject-tag commercial-tag"><i
+                                                class="fas fa-language me-1"></i>English</span>
+                                        <span class="subject-tag commercial-tag"><i
+                                                class="fas fa-coins me-1"></i>Economics</span>
+                                        <span class="subject-tag commercial-tag"><i
+                                                class="fas fa-store me-1"></i>Commerce</span>
+                                        <span class="subject-tag commercial-tag"><i
+                                                class="fas fa-file-invoice-dollar me-1"></i>Accounting</span>
+                                    </div>
+
+                                    <div class="question-count mb-4">
+                                        <span class="count-number">99</span>
+                                        <span class="count-text">Questions</span>
+                                    </div>
+
+                                    <button class="btn btn-commercial btn-lg w-100" onclick="startQuiz('commercial')">
+                                        <i class="fas fa-rocket me-2"></i>Start Commercial Quiz
                                     </button>
                                 </div>
                                 <div class="locked-overlay">
