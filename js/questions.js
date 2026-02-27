@@ -289,7 +289,8 @@ const questionsData = {
                 { id: 16, question: "The final link in the chain of distribution is:", options: ["Wholesaling", "Consumer", "Retailing", "Middleman"], answer: "B" },
                 { id: 17, question: "A country's terms of trade are said to improve when the ratio of her exports:", options: ["Remains constant", "Increases", "Equals import", "Decreases"], answer: "B" },
                 { id: 18, question: "Communication is relevant in business activities because it:", options: ["Creates wealth for people", "Reduces the cost and risk of traveling", "Connects people", "Enhances delivery of goods and services"], answer: "B" },
-                { id: 19, question: "The most effective type of advertising for branded products is:", options: ["Mass advertising", "Persuasive advertising", "Informative advertising", "Competitive advertising"], answer: "C" }
+                { id: 19, question: "The most effective type of advertising for branded products is:", options: ["Mass advertising", "Persuasive advertising", "Informative advertising", "Competitive advertising"], answer: "C" },
+                { id: 20, question: "Which of the following best describes an entrepôt trade?", options: ["Trade involving only domestic goods", "Importing goods solely for local consumption", "The import and re-export of goods without processing them", "Exporting raw materials for foreign processing"], answer: "C" }
             ]
         },
 
