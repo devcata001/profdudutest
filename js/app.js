@@ -150,6 +150,11 @@ async function login() {
             sessionStorage.setItem('profdudu_currentUser', JSON.stringify(currentUser));
         }
 
+        // Also clear device lock for freshly registered/re-registered users (deleted and re-signed up)
+        if (!currentUser.quizAttempted) {
+            localStorage.removeItem('profdudu_device_locked');
+        }
+
         showToast('Welcome', `Welcome back, ${currentUser.name}!`, 'success');
         showCategorySection();
     } catch (error) {
