@@ -13,6 +13,12 @@ const PORT = process.env.PORT || 8080;
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Explicit root routes (fallback if express.static doesn't resolve them)
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
+app.get('/admin', (req, res) => res.sendFile(path.join(__dirname, 'admin.html')));
+app.get('/admin.html', (req, res) => res.sendFile(path.join(__dirname, 'admin.html')));
 
 // Data file paths
 // On Vercel the project root is read-only — use /tmp for mutable data
