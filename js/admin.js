@@ -261,26 +261,48 @@ async function loadBestStudents() {
         const medals = ['🥇', '🥈', '🥉'];
 
         tb.innerHTML = ALL_SUBJECTS.map((subj, idx) => {
+            const relevantCats = SUBJECT_CATS[subj];
+            const pool = results.filter(r => relevantCats.includes(r.category));
+
+            if (!pool.length) {
+                return `<tr>
+                    <td class="text-muted">${medals[idx] || (idx + 1) + '.'}</td>
+                    <td class="fw-semibold">${SUBJECT_LABELS[subj] || subj}</td>
+                    <td colspan="5" class="text-muted">No results yet</td>
+                </tr>`;
+            }
+
+            // prefer per-subject score; fall back to overall percentage
             let best = null, bestScore = -1;
-            results.forEach(r => {
+            pool.forEach(r => {
                 const sc = r.subjectScores?.[subj] ?? -1;
                 if (sc > bestScore) { bestScore = sc; best = r; }
             });
 
-            const total = best?.subjectTotals?.[subj] || 20;
-            const pct = best && bestScore >= 0 ? Math.round(bestScore / total * 100) : 0;
+            let scoreHtml, pct;
+            if (best && bestScore >= 0) {
+                // has real per-subject data
+                const total = best.subjectTotals?.[subj] || 20;
+                pct = Math.round(bestScore / total * 100);
+                scoreHtml = `<strong>${bestScore}</strong><span class="text-muted">/${total}</span>`;
+            } else {
+                // fall back: pick top by overall percentage
+                best = pool.reduce((a, b) => b.percentage > a.percentage ? b : a);
+                pct = best.percentage;
+                scoreHtml = `<strong>${best.totalScore}</strong><span class="text-muted">/${best.totalQuestions}</span>`;
+            }
 
             return `<tr>
                 <td class="text-muted">${medals[idx] || (idx + 1) + '.'}</td>
                 <td class="fw-semibold" style="text-transform:capitalize">${SUBJECT_LABELS[subj] || subj}</td>
-                <td>${best ? catBadge(best.category) : '<span class="text-muted">—</span>'}</td>
+                <td>${catBadge(best.category)}</td>
                 <td>
-                    <span class="avatar me-1" style="background:#f1f5f9;color:#6366f1;width:28px;height:28px;font-size:.7rem">${initials(best?.userName)}</span>
-                    ${best?.userName || '—'}
+                    <span class="avatar me-1" style="background:#f1f5f9;color:#6366f1;width:28px;height:28px;font-size:.7rem">${initials(best.userName)}</span>
+                    ${best.userName}
                 </td>
-                <td><strong>${bestScore >= 0 ? bestScore : '—'}</strong><span class="text-muted">/${total}</span></td>
-                <td>${bestScore >= 0 ? pctBadge(pct) : '<span class="text-muted">—</span>'}</td>
-                <td class="text-muted d-none d-md-table-cell" style="font-size:.8rem">${fmtDate(best?.date)}</td>
+                <td>${scoreHtml}</td>
+                <td>${pctBadge(pct)}</td>
+                <td class="text-muted d-none d-md-table-cell" style="font-size:.8rem">${fmtDate(best.date)}</td>
             </tr>`;
         }).join('');
     } catch (e) { toast('Failed to load best students', 'error'); }
