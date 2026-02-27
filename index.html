@@ -163,7 +163,7 @@
 
                         <div class="d-flex justify-content-center gap-3 flex-wrap mt-4">
                             <div class="info-badge">
-                                <i class="fas fa-clock me-2"></i>30 Minutes
+                                <i class="fas fa-clock me-2"></i>45 Minutes
                             </div>
                             <div class="info-badge warning">
                                 <i class="fas fa-exclamation-triangle me-2"></i>One Attempt Only
@@ -201,7 +201,7 @@
                                         <span class="count-text">Questions</span>
                                     </div>
 
-                                    <button class="btn btn-science btn-lg w-100" onclick="startQuiz('science')">
+                                    <button class="btn btn-science btn-lg w-100" onclick="confirmStartQuiz('science')">
                                         <i class="fas fa-rocket me-2"></i>Start Science Quiz
                                     </button>
                                 </div>
@@ -238,7 +238,7 @@
                                         <span class="count-text">Questions</span>
                                     </div>
 
-                                    <button class="btn btn-arts btn-lg w-100" onclick="startQuiz('arts')">
+                                    <button class="btn btn-arts btn-lg w-100" onclick="confirmStartQuiz('arts')">
                                         <i class="fas fa-rocket me-2"></i>Start Arts Quiz
                                     </button>
                                 </div>
@@ -278,7 +278,8 @@
                                         <span class="count-text">Questions</span>
                                     </div>
 
-                                    <button class="btn btn-commercial btn-lg w-100" onclick="startQuiz('commercial')">
+                                    <button class="btn btn-commercial btn-lg w-100"
+                                        onclick="confirmStartQuiz('commercial')">
                                         <i class="fas fa-rocket me-2"></i>Start Commercial Quiz
                                     </button>
                                 </div>
@@ -455,6 +456,36 @@
                 <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
             </div>
             <div class="toast-body" id="toastMessage"></div>
+        </div>
+    </div>
+
+    <!-- Confirm Start Modal -->
+    <div class="modal fade" id="confirmStartModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content custom-modal">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title">
+                        <i class="fas fa-flag-checkered me-2 text-success"></i>Ready to Begin?
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-3">You are about to start the <strong id="startCategoryName"></strong> quiz.</p>
+                    <div class="alert alert-warning mb-0">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Important:</strong> You only get <strong>one attempt</strong>. The 45-minute timer
+                        starts immediately. Make sure you are ready!
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Cancel
+                    </button>
+                    <button type="button" class="btn btn-success btn-glow" onclick="confirmStartQuiz()">
+                        <i class="fas fa-play me-2"></i>Yes, Start Now!
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 

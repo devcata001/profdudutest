@@ -8,11 +8,12 @@ const API_BASE = '';
 // Global Variables
 let currentUser = null;
 let currentCategory = null;
+let pendingCategory = null;
 let currentQuestionIndex = 0;
 let allQuestions = [];
 let userAnswers = {};
 let timerInterval = null;
-let timeRemaining = 30 * 60; // 30 minutes in seconds
+let timeRemaining = 45 * 60; // 45 minutes in seconds
 let quizStartTime = null;
 
 // ============================================
@@ -235,11 +236,28 @@ async function showCategorySection() {
 // QUIZ FUNCTIONS
 // ============================================
 
+// Called by category buttons — shows confirmation modal
+function confirmStartQuiz(category) {
+    if (category) {
+        // Called from the card button: store category and show modal
+        pendingCategory = category;
+        const names = { science: 'Science', arts: 'Arts', commercial: 'Commercial' };
+        document.getElementById('startCategoryName').textContent = names[category] || category;
+        const modal = new bootstrap.Modal(document.getElementById('confirmStartModal'));
+        modal.show();
+    } else {
+        // Called from modal "Yes" button: close modal and start
+        const modal = bootstrap.Modal.getInstance(document.getElementById('confirmStartModal'));
+        if (modal) modal.hide();
+        startQuiz(pendingCategory);
+    }
+}
+
 async function startQuiz(category) {
     currentCategory = category;
     currentQuestionIndex = 0;
     userAnswers = {};
-    timeRemaining = 30 * 60; // Reset timer to 30 minutes
+    timeRemaining = 45 * 60; // Reset timer to 45 minutes
     quizStartTime = new Date();
 
     // Lock user's category choice
@@ -522,7 +540,7 @@ function calculateResults() {
     });
 
     const percentage = Math.round((totalScore / allQuestions.length) * 100);
-    const timeSpent = Math.round((30 * 60 - timeRemaining) / 60); // in minutes
+    const timeSpent = Math.round((45 * 60 - timeRemaining) / 60); // in minutes
 
     return {
         userId: currentUser.id,
@@ -632,4 +650,28 @@ document.addEventListener('DOMContentLoaded', function () {
             e.returnValue = 'You have an ongoing quiz. Are you sure you want to leave?';
         }
     });
+});
+
+// ── Anti-tab-switching (catches cheaters) ────────────────────────────────────
+let tabSwitchCount = 0;
+const MAX_TAB_SWITCHES = 3;
+
+document.addEventListener('visibilitychange', function () {
+    if (!timerInterval) return; // Only active during quiz
+    if (document.hidden) {
+        tabSwitchCount++;
+        if (tabSwitchCount >= MAX_TAB_SWITCHES) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            showToast('⚠ Exam Terminated', 'Quiz auto-submitted: too many tab switches detected!', 'error');
+            setTimeout(() => confirmSubmit(), 1500);
+        } else {
+            showToast('⚠ Warning', `Tab switch detected! (${tabSwitchCount}/${MAX_TAB_SWITCHES}) — one more and your exam will be auto-submitted.`, 'warning');
+        }
+    }
+});
+
+window.addEventListener('blur', function () {
+    if (!timerInterval) return;
+    showToast('⚠ Stay Focused', 'Please stay on this tab during the exam!', 'warning');
 });
