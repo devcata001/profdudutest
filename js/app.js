@@ -652,22 +652,14 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-// ── Anti-tab-switching (catches cheaters) ────────────────────────────────────
-let tabSwitchCount = 0;
-const MAX_TAB_SWITCHES = 3;
-
+// ── Auto-submit on tab switch ────────────────────────────────────────────────
 document.addEventListener('visibilitychange', function () {
     if (!timerInterval) return; // Only active during quiz
     if (document.hidden) {
-        tabSwitchCount++;
-        if (tabSwitchCount >= MAX_TAB_SWITCHES) {
-            clearInterval(timerInterval);
-            timerInterval = null;
-            showToast('⚠ Exam Terminated', 'Quiz auto-submitted: too many tab switches detected!', 'error');
-            setTimeout(() => confirmSubmit(), 1500);
-        } else {
-            showToast('⚠ Warning', `Tab switch detected! (${tabSwitchCount}/${MAX_TAB_SWITCHES}) — one more and your exam will be auto-submitted.`, 'warning');
-        }
+        clearInterval(timerInterval);
+        timerInterval = null;
+        showToast('⚠ Exam Terminated', 'Your exam has been auto-submitted because you switched tabs!', 'error');
+        setTimeout(() => confirmSubmit(), 1200);
     }
 });
 
