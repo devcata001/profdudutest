@@ -142,6 +142,14 @@ async function login() {
         currentUser = result.user;
         sessionStorage.setItem('profdudu_currentUser', JSON.stringify(currentUser));
 
+        // If admin reset this user, clear the device lock so they can retake
+        if (currentUser.deviceReset) {
+            localStorage.removeItem('profdudu_device_locked');
+            await apiCall(`/api/users/${currentUser.id}/acknowledge-reset`, 'POST');
+            currentUser.deviceReset = false;
+            sessionStorage.setItem('profdudu_currentUser', JSON.stringify(currentUser));
+        }
+
         showToast('Welcome', `Welcome back, ${currentUser.name}!`, 'success');
         showCategorySection();
     } catch (error) {
@@ -629,18 +637,32 @@ function showResults(results) {
 // ============================================
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Check device-level lock first (prevents any account on this browser from re-sitting)
-    if (localStorage.getItem('profdudu_device_locked') === '1') {
-        document.getElementById('authSection').classList.add('d-none');
-        document.getElementById('deviceLockedSection').classList.remove('d-none');
-        return; // Stop all further init
+    // If device is locked, still show the login form so a reset user can log in
+    // The actual lock enforcement happens in showCategorySection after login
+    const deviceLocked = localStorage.getItem('profdudu_device_locked') === '1';
+    if (deviceLocked) {
+        // Show auth so a reset user can log in and clear the lock
+        document.getElementById('authSection').classList.remove('d-none');
+        document.getElementById('deviceLockedSection').classList.add('d-none');
     }
 
     // Check if user is already logged in
     const savedUser = sessionStorage.getItem('profdudu_currentUser');
     if (savedUser) {
         currentUser = JSON.parse(savedUser);
-        showCategorySection();
+        // If device is locked, check server for a reset before proceeding
+        if (deviceLocked) {
+            apiCall(`/api/users/${currentUser.id}`).then(freshUser => {
+                if (freshUser && freshUser.deviceReset) {
+                    localStorage.removeItem('profdudu_device_locked');
+                    return apiCall(`/api/users/${currentUser.id}/acknowledge-reset`, 'POST');
+                }
+            }).catch(() => { }).finally(() => {
+                showCategorySection();
+            });
+        } else {
+            showCategorySection();
+        }
     }
 
     // Prevent page refresh during quiz
