@@ -41,7 +41,7 @@ function adminLogout() {
 }
 
 // ── Navigation ────────────────────────────────────────────────────────────────
-const SECTIONS = ['dashboard', 'all', 'science', 'arts', 'commercial', 'students'];
+const SECTIONS = ['dashboard', 'all', 'science', 'arts', 'commercial', 'best', 'students'];
 
 function showSection(name) {
     SECTIONS.forEach(s => {
@@ -56,6 +56,7 @@ function showSection(name) {
         science: () => loadCategoryResults('science'),
         arts: () => loadCategoryResults('arts'),
         commercial: () => loadCategoryResults('commercial'),
+        best: loadBestStudents,
         students: loadStudents
     };
     if (loaders[name]) loaders[name]();
@@ -222,6 +223,67 @@ async function loadCategoryResults(cat) {
             <td class="text-muted d-none d-lg-table-cell" style="font-size:.8rem">${fmtDate(r.date)}</td>
         </tr>`).join('');
     } catch (e) { toast('Failed to load results', 'error'); }
+}
+
+// ── Best Students per Subject ────────────────────────────────────────────────
+const SUBJECT_LABELS = {
+    maths: 'Mathematics', english: 'English',
+    physics: 'Physics', biology: 'Biology', chemistry: 'Chemistry',
+    literature: 'Literature', government: 'Government', crs: 'CRS',
+    economics: 'Economics', commerce: 'Commerce', accounting: 'Accounting'
+};
+
+async function loadBestStudents() {
+    try {
+        const results = await apiCall('/api/results');
+
+        const cats = [
+            { key: 'science', tableId: 'bestScienceTable', subjects: ['maths', 'english', 'physics', 'biology', 'chemistry'], headCls: 'table-info' },
+            { key: 'arts', tableId: 'bestArtsTable', subjects: ['maths', 'english', 'literature', 'government', 'crs'], headCls: 'table-warning' },
+            { key: 'commercial', tableId: 'bestCommercialTable', subjects: ['maths', 'english', 'economics', 'commerce', 'accounting'], headCls: 'table-success' }
+        ];
+
+        cats.forEach(({ key, tableId, subjects }) => {
+            const tb = document.getElementById(tableId);
+            const catResults = results.filter(r => r.category === key);
+
+            if (!catResults.length) {
+                tb.innerHTML = `<tr><td colspan="5" class="text-center text-muted py-3">No ${key} results yet</td></tr>`;
+                return;
+            }
+
+            tb.innerHTML = subjects.map((subj, idx) => {
+                // find student with highest score in this subject
+                let best = null;
+                let bestScore = -1;
+                catResults.forEach(r => {
+                    const sc = r.subjectScores?.[subj] ?? -1;
+                    if (sc > bestScore) { bestScore = sc; best = r; }
+                });
+
+                const total = best?.subjectTotals?.[subj] || 20;
+                const pct = best ? Math.round(bestScore / total * 100) : 0;
+                const medal = idx === 0 ? '' : ''; // medals only if rank 1 across all
+                const rowClass = idx % 2 === 0 ? '' : '';
+
+                return `<tr>
+                    <td>
+                        <span class="fw-semibold" style="text-transform:capitalize">
+                            ${idx === 0 ? '🥇 ' : idx === 1 ? '🥈 ' : idx === 2 ? '🥉 ' : (idx + 1) + '. '}
+                            ${SUBJECT_LABELS[subj] || subj}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="avatar me-1" style="background:#f1f5f9;color:#6366f1;width:28px;height:28px;font-size:.7rem">${initials(best?.userName)}</span>
+                        ${best?.userName || '—'}
+                    </td>
+                    <td><strong>${bestScore >= 0 ? bestScore : '—'}</strong><span class="text-muted">/${total}</span></td>
+                    <td>${bestScore >= 0 ? pctBadge(pct) : '<span class="text-muted">—</span>'}</td>
+                    <td class="text-muted d-none d-md-table-cell" style="font-size:.8rem">${fmtDate(best?.date)}</td>
+                </tr>`;
+            }).join('');
+        });
+    } catch (e) { toast('Failed to load best students', 'error'); }
 }
 
 // ── Students ──────────────────────────────────────────────────────────────────
