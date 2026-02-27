@@ -53,10 +53,9 @@ ensureFile(RESULTS_FILE, SEED_RESULTS);
 const MAINT_LOCK = path.join(DATA_DIR, 'LOCK');
 
 function isMaintenanceMode() {
-    // APP IS LOCKED BY DEFAULT - set MAINTENANCE=false to unlock
-    // This ensures the app stays locked until you explicitly open it
-    if (process.env.MAINTENANCE === 'false') return false;
-    return true; // Locked by default
+    // Open by default — only locks when MAINTENANCE=true is explicitly set
+    if (process.env.MAINTENANCE === 'true') return true;
+    return false;
 }
 
 // Middleware to block access when in maintenance mode
