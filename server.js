@@ -12,13 +12,10 @@ const PORT = process.env.PORT || 8080;
 // Middleware
 app.use(cors());
 app.use(express.json());
-// On Vercel, static files are served by the CDN (see vercel.json).
-// Locally, Express serves them directly.
-if (!process.env.VERCEL) {
-    app.use(express.static(path.join(__dirname)));
-    app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
-    app.get('/admin.html', (req, res) => res.sendFile(path.join(__dirname, 'admin.html')));
-}
+// Serve static files — on Vercel, includeFiles in vercel.json bundles them alongside the lambda
+app.use(express.static(path.join(__dirname)));
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
+app.get('/admin.html', (req, res) => res.sendFile(path.join(__dirname, 'admin.html')));
 
 // Data file paths
 // On Vercel the project root is read-only — use /tmp for mutable data
