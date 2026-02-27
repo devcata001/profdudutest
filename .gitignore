@@ -1,9 +1,6 @@
 # Dependencies
 node_modules/
 
-# Data files (will be created on server)
-data/
-
 # Logs
 *.log
 npm-debug.log*
