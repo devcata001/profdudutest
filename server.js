@@ -15,22 +15,35 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname)));
 
 // Data file paths
-const DATA_DIR = path.join(__dirname, 'data');
+// On Vercel the project root is read-only — use /tmp for mutable data
+const IS_VERCEL = !!process.env.VERCEL;
+const DATA_DIR = IS_VERCEL ? '/tmp' : path.join(__dirname, 'data');
 const USERS_FILE = path.join(DATA_DIR, 'users.json');
 const RESULTS_FILE = path.join(DATA_DIR, 'results.json');
 
-// Ensure data directory exists
-if (!fs.existsSync(DATA_DIR)) {
+// Source files bundled with the repo (read-only, used as seed on Vercel)
+const SEED_DIR = path.join(__dirname, 'data');
+const SEED_USERS = path.join(SEED_DIR, 'users.json');
+const SEED_RESULTS = path.join(SEED_DIR, 'results.json');
+
+// Ensure data directory exists (only needed locally)
+if (!IS_VERCEL && !fs.existsSync(DATA_DIR)) {
     fs.mkdirSync(DATA_DIR, { recursive: true });
 }
 
 // Initialize data files if they don't exist
-if (!fs.existsSync(USERS_FILE)) {
-    fs.writeFileSync(USERS_FILE, JSON.stringify([]));
+// On Vercel: copy seed files from the repo into /tmp on first cold start
+function ensureFile(tmpFile, seedFile) {
+    if (!fs.existsSync(tmpFile)) {
+        if (fs.existsSync(seedFile)) {
+            fs.copyFileSync(seedFile, tmpFile);
+        } else {
+            fs.writeFileSync(tmpFile, JSON.stringify([]));
+        }
+    }
 }
-if (!fs.existsSync(RESULTS_FILE)) {
-    fs.writeFileSync(RESULTS_FILE, JSON.stringify([]));
-}
+ensureFile(USERS_FILE, SEED_USERS);
+ensureFile(RESULTS_FILE, SEED_RESULTS);
 
 // Maintenance lock file path - if this file exists, the app is locked
 const MAINT_LOCK = path.join(DATA_DIR, 'LOCK');
@@ -402,8 +415,13 @@ app.post('/api/admin/clear-all', (req, res) => {
 // START SERVER
 // =====================================
 
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`
+// Export for Vercel serverless runtime
+module.exports = app;
+
+// Also listen when running locally (not on Vercel)
+if (!process.env.VERCEL) {
+    app.listen(PORT, '0.0.0.0', () => {
+        console.log(`
 ╔════════════════════════════════════════════════════════════╗
 ║          Study With Prof Dudu - Quiz Server                ║
 ╠════════════════════════════════════════════════════════════╣
@@ -414,5 +432,6 @@ app.listen(PORT, '0.0.0.0', () => {
 ║  Quiz Portal:  http://localhost:${PORT}                      ║
 ║  Admin Panel:  http://localhost:${PORT}/admin.html           ║
 ╚════════════════════════════════════════════════════════════╝
-    `);
-});
+        `);
+    });
+}
