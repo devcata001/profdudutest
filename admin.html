@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,431 +12,848 @@
         :root {
             --sidebar-width: 240px;
             --topbar-height: 64px;
-            --science:  #0ea5e9;
-            --arts:     #f59e0b;
+            --science: #0ea5e9;
+            --arts: #f59e0b;
             --commercial: #10b981;
         }
-        * { box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: #f1f5f9; margin: 0; min-height: 100vh; }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f1f5f9;
+            margin: 0;
+            min-height: 100vh;
+        }
 
         /* ── Top bar ── */
         .topbar {
-            position: fixed; top: 0; left: 0; right: 0; height: var(--topbar-height);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--topbar-height);
             background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-            display: flex; align-items: center; padding: 0 24px;
-            box-shadow: 0 2px 10px rgba(0,0,0,.25); z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .25);
+            z-index: 1000;
         }
-        .topbar-brand { color: #fff; font-weight: 700; font-size: 1.1rem; display:flex; align-items:center; gap:10px; }
-        .topbar-brand i { color: #f59e0b; }
-        .topbar-right { margin-left: auto; display:flex; gap:10px; align-items:center; }
+
+        .topbar-brand {
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .topbar-brand i {
+            color: #f59e0b;
+        }
+
+        .topbar-right {
+            margin-left: auto;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
 
         /* ── Sidebar ── */
         .sidebar {
-            position: fixed; top: var(--topbar-height); left: 0;
-            width: var(--sidebar-width); height: calc(100vh - var(--topbar-height));
-            background: #fff; border-right: 1px solid #e2e8f0;
-            padding: 20px 12px; overflow-y: auto; z-index: 900;
+            position: fixed;
+            top: var(--topbar-height);
+            left: 0;
+            width: var(--sidebar-width);
+            height: calc(100vh - var(--topbar-height));
+            background: #fff;
+            border-right: 1px solid #e2e8f0;
+            padding: 20px 12px;
+            overflow-y: auto;
+            z-index: 900;
             transition: transform .3s;
         }
-        .sidebar-label { font-size: .7rem; font-weight: 700; color: #94a3b8; text-transform: uppercase;
-            letter-spacing: .08em; padding: 0 12px; margin: 16px 0 6px; }
-        .nav-item-btn {
-            width: 100%; text-align:left; background:none; border:none;
-            padding: 10px 14px; border-radius: 10px; color: #475569;
-            font-size: .875rem; font-weight: 500; cursor:pointer;
-            display:flex; align-items:center; gap:10px; transition:.2s;
+
+        .sidebar-label {
+            font-size: .7rem;
+            font-weight: 700;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            padding: 0 12px;
+            margin: 16px 0 6px;
         }
-        .nav-item-btn:hover { background: #f1f5f9; color: #1e293b; }
-        .nav-item-btn.active { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: #fff; }
-        .nav-item-btn i { width: 18px; text-align:center; }
+
+        .nav-item-btn {
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 10px;
+            color: #475569;
+            font-size: .875rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: .2s;
+        }
+
+        .nav-item-btn:hover {
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .nav-item-btn.active {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: #fff;
+        }
+
+        .nav-item-btn i {
+            width: 18px;
+            text-align: center;
+        }
 
         /* ── Main content ── */
-        .main-content { margin-left: var(--sidebar-width); padding-top: calc(var(--topbar-height) + 24px);
-            padding: calc(var(--topbar-height) + 24px) 24px 24px; }
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding-top: calc(var(--topbar-height) + 24px);
+            padding: calc(var(--topbar-height) + 24px) 24px 24px;
+        }
 
         /* ── Login card ── */
-        .login-wrap { min-height: 100vh; display:flex; align-items:center; justify-content:center; }
-        .login-card { background:#fff; border-radius:20px; padding:40px;
-            box-shadow: 0 20px 60px rgba(0,0,0,.1); width:100%; max-width:420px; }
-        .login-logo { width:64px; height:64px; background: linear-gradient(135deg,#6366f1,#8b5cf6);
-            border-radius:16px; display:flex; align-items:center; justify-content:center;
-            margin: 0 auto 20px; }
+        .login-wrap {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .1);
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .login-logo {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
 
         /* ── Stat cards ── */
-        .stat-card { border-radius: 16px; padding: 20px; color: #fff; position:relative; overflow:hidden; }
-        .stat-card .bg-icon { position:absolute; right:-10px; top:-10px; font-size:5rem; opacity:.15; }
-        .stat-card h2 { font-size: 2rem; font-weight:700; margin:0; }
-        .stat-card p { margin:0; font-size:.8rem; opacity:.85; }
-        .sc-science    { background: linear-gradient(135deg, #0ea5e9, #38bdf8); }
-        .sc-arts       { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
-        .sc-commercial { background: linear-gradient(135deg, #10b981, #34d399); }
-        .sc-total      { background: linear-gradient(135deg, #6366f1, #8b5cf6); }
-        .sc-completed  { background: linear-gradient(135deg, #ec4899, #f472b6); }
+        .stat-card {
+            border-radius: 16px;
+            padding: 20px;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card .bg-icon {
+            position: absolute;
+            right: -10px;
+            top: -10px;
+            font-size: 5rem;
+            opacity: .15;
+        }
+
+        .stat-card h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .stat-card p {
+            margin: 0;
+            font-size: .8rem;
+            opacity: .85;
+        }
+
+        .sc-science {
+            background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+        }
+
+        .sc-arts {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+        }
+
+        .sc-commercial {
+            background: linear-gradient(135deg, #10b981, #34d399);
+        }
+
+        .sc-total {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        }
+
+        .sc-completed {
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+        }
 
         /* ── Section card ── */
-        .section-card { background:#fff; border-radius:16px; padding:24px;
-            box-shadow: 0 1px 6px rgba(0,0,0,.06); margin-bottom:20px; }
-        .section-card h5 { font-weight:700; color:#1e293b; margin-bottom:20px; }
+        .section-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 1px 6px rgba(0, 0, 0, .06);
+            margin-bottom: 20px;
+        }
+
+        .section-card h5 {
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 20px;
+        }
 
         /* ── Tables ── */
-        .table th { font-size:.75rem; text-transform:uppercase; letter-spacing:.05em;
-            font-weight:600; color:#64748b; border-bottom:2px solid #e2e8f0; background:#f8fafc; }
-        .table td { vertical-align:middle; font-size:.875rem; }
-        .table tbody tr:hover { background:#f8fafc; }
+        .table th {
+            font-size: .75rem;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            font-weight: 600;
+            color: #64748b;
+            border-bottom: 2px solid #e2e8f0;
+            background: #f8fafc;
+        }
+
+        .table td {
+            vertical-align: middle;
+            font-size: .875rem;
+        }
+
+        .table tbody tr:hover {
+            background: #f8fafc;
+        }
 
         /* ── Badges ── */
-        .badge-science    { background: #e0f2fe; color: #0369a1; }
-        .badge-arts       { background: #fef3c7; color: #92400e; }
-        .badge-commercial { background: #d1fae5; color: #065f46; }
+        .badge-science {
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+
+        .badge-arts {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-commercial {
+            background: #d1fae5;
+            color: #065f46;
+        }
 
         /* ── Progress bar ── */
-        .perf-bar { height:8px; border-radius:4px; background:#e2e8f0; overflow:hidden; margin-top:4px; }
-        .perf-fill { height:100%; border-radius:4px; transition:width .4s; }
+        .perf-bar {
+            height: 8px;
+            border-radius: 4px;
+            background: #e2e8f0;
+            overflow: hidden;
+            margin-top: 4px;
+        }
 
-        /* ── Mobile ── */
-        @media(max-width:768px) {
-            .sidebar { transform: translateX(-100%); }
-            .sidebar.open { transform: translateX(0); }
-            .main-content { margin-left:0; }
+        .perf-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width .4s;
+        }
+
+        /* ── Sidebar overlay (mobile backdrop) ── */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .45);
+            z-index: 850;
+        }
+
+        .sidebar-overlay.show {
+            display: block;
         }
 
         /* ── Avatar ── */
-        .avatar { width:34px; height:34px; border-radius:50%; display:inline-flex;
-            align-items:center; justify-content:center; font-weight:700; font-size:.8rem; }
+        .avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: .8rem;
+        }
+
+        /* ── Tablet ── */
+        @media(max-width:1024px) {
+            :root {
+                --sidebar-width: 210px;
+            }
+        }
+
+        /* ── Mobile ── */
+        @media(max-width:768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                box-shadow: none;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+                box-shadow: 4px 0 20px rgba(0, 0, 0, .2);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: calc(var(--topbar-height) + 16px) 12px 24px;
+            }
+
+            .section-card {
+                padding: 16px 14px;
+            }
+
+            .stat-card {
+                padding: 14px 12px;
+            }
+
+            .stat-card h2 {
+                font-size: 1.6rem;
+            }
+
+            .stat-card p {
+                font-size: .7rem;
+            }
+
+            .section-card h5 {
+                font-size: .95rem;
+            }
+
+            h4.fw-bold {
+                font-size: 1.1rem;
+            }
+
+            .flex-wrap-mobile {
+                flex-wrap: wrap !important;
+            }
+        }
+
+        /* ── Small phones ── */
+        @media(max-width:576px) {
+            .topbar {
+                padding: 0 10px;
+            }
+
+            .topbar-brand span {
+                font-size: .85rem;
+            }
+
+            .topbar-right>.admin-indicator {
+                display: none !important;
+            }
+
+            .topbar-right .btn {
+                font-size: .75rem;
+                padding: .3rem .5rem;
+            }
+
+            .topbar-right .btn .btn-label {
+                display: none;
+            }
+
+            .main-content {
+                padding: calc(var(--topbar-height) + 10px) 8px 20px;
+            }
+
+            .stat-card h2 {
+                font-size: 1.3rem;
+            }
+
+            .stat-card p {
+                font-size: .65rem;
+            }
+
+            .login-card {
+                padding: 28px 18px;
+            }
+
+            h4.fw-bold {
+                font-size: 1rem;
+            }
+
+            .section-card {
+                padding: 12px 10px;
+            }
+        }
     </style>
 </head>
+
 <body>
 
-<!-- ─── Login ──────────────────────────────────────────────────────────────── -->
-<div id="adminLoginSection" class="login-wrap">
-    <div class="login-card">
-        <div class="login-logo"><i class="fas fa-shield-alt fa-2x text-white"></i></div>
-        <h4 class="text-center fw-bold mb-1">Admin Portal</h4>
-        <p class="text-center text-muted mb-4" style="font-size:.875rem">Study With Prof Dudu</p>
-        <div class="mb-3">
-            <label class="form-label fw-semibold">Username</label>
-            <div class="input-group">
-                <span class="input-group-text"><i class="fas fa-user text-muted"></i></span>
-                <input type="text" id="adminUsername" class="form-control" placeholder="admin" onkeydown="if(event.key==='Enter')adminLogin()">
+    <!-- Sidebar overlay (mobile) -->
+    <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <!-- ─── Login ──────────────────────────────────────────────────────────────── -->
+    <div id="adminLoginSection" class="login-wrap">
+        <div class="login-card">
+            <div class="login-logo"><i class="fas fa-shield-alt fa-2x text-white"></i></div>
+            <h4 class="text-center fw-bold mb-1">Admin Portal</h4>
+            <p class="text-center text-muted mb-4" style="font-size:.875rem">Study With Prof Dudu</p>
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Username</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-user text-muted"></i></span>
+                    <input type="text" id="adminUsername" class="form-control" placeholder="admin"
+                        onkeydown="if(event.key==='Enter')adminLogin()">
+                </div>
             </div>
-        </div>
-        <div class="mb-4">
-            <label class="form-label fw-semibold">Password</label>
-            <div class="input-group">
-                <span class="input-group-text"><i class="fas fa-lock text-muted"></i></span>
-                <input type="password" id="adminPassword" class="form-control" placeholder="••••••••" onkeydown="if(event.key==='Enter')adminLogin()">
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Password</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-lock text-muted"></i></span>
+                    <input type="password" id="adminPassword" class="form-control" placeholder="••••••••"
+                        onkeydown="if(event.key==='Enter')adminLogin()">
+                </div>
             </div>
+            <button class="btn btn-primary w-100 py-2 fw-semibold" onclick="adminLogin()">
+                <i class="fas fa-sign-in-alt me-2"></i>Login
+            </button>
+            <p class="text-center text-muted mt-3" style="font-size:.75rem">Default: admin / admin123</p>
         </div>
-        <button class="btn btn-primary w-100 py-2 fw-semibold" onclick="adminLogin()">
-            <i class="fas fa-sign-in-alt me-2"></i>Login
-        </button>
-        <p class="text-center text-muted mt-3" style="font-size:.75rem">Default: admin / admin123</p>
     </div>
-</div>
 
-<!-- ─── Dashboard ───────────────────────────────────────────────────────────── -->
-<div id="adminDashboard" class="d-none">
+    <!-- ─── Dashboard ───────────────────────────────────────────────────────────── -->
+    <div id="adminDashboard" class="d-none">
 
-    <!-- Topbar -->
-    <div class="topbar">
-        <button class="btn btn-sm text-white d-md-none me-3" onclick="toggleSidebar()" style="background:rgba(255,255,255,.1);border:none">
-            <i class="fas fa-bars"></i>
-        </button>
-        <div class="topbar-brand">
-            <i class="fas fa-graduation-cap fa-lg"></i>
-            <span>Prof Dudu — Admin</span>
+        <!-- Topbar -->
+        <div class="topbar">
+            <button class="btn btn-sm text-white d-md-none me-3" onclick="toggleSidebar()"
+                style="background:rgba(255,255,255,.1);border:none">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="topbar-brand">
+                <i class="fas fa-graduation-cap fa-lg"></i>
+                <span>Prof Dudu — Admin</span>
+            </div>
+            <div class="topbar-right">
+                <span class="text-white opacity-75 admin-indicator" style="font-size:.8rem"><i
+                        class="fas fa-circle text-success me-1"></i>Admin</span>
+                <a href="index.html" class="btn btn-sm"
+                    style="background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.2)">
+                    <i class="fas fa-home me-1"></i><span class="btn-label">Portal</span>
+                </a>
+                <button class="btn btn-sm btn-danger" onclick="adminLogout()">
+                    <i class="fas fa-sign-out-alt me-1"></i><span class="btn-label">Logout</span>
+                </button>
+            </div>
         </div>
-        <div class="topbar-right">
-            <span class="text-white opacity-75" style="font-size:.8rem"><i class="fas fa-circle text-success me-1"></i>Admin</span>
-            <a href="index.html" class="btn btn-sm" style="background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.2)">
-                <i class="fas fa-home me-1"></i>Portal
-            </a>
-            <button class="btn btn-sm btn-danger" onclick="adminLogout()">
-                <i class="fas fa-sign-out-alt me-1"></i>Logout
+
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-label">Overview</div>
+            <button class="nav-item-btn active" id="nav-dashboard" onclick="showSection('dashboard')">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </button>
+
+            <div class="sidebar-label">Results</div>
+            <button class="nav-item-btn" id="nav-all" onclick="showSection('all')">
+                <i class="fas fa-list-alt"></i> All Results
+            </button>
+            <button class="nav-item-btn" id="nav-science" onclick="showSection('science')">
+                <i class="fas fa-flask"></i> Science
+            </button>
+            <button class="nav-item-btn" id="nav-arts" onclick="showSection('arts')">
+                <i class="fas fa-palette"></i> Arts
+            </button>
+            <button class="nav-item-btn" id="nav-commercial" onclick="showSection('commercial')">
+                <i class="fas fa-briefcase"></i> Commercial
+            </button>
+
+            <div class="sidebar-label">Students</div>
+            <button class="nav-item-btn" id="nav-students" onclick="showSection('students')">
+                <i class="fas fa-users"></i> Registered Students
+            </button>
+
+            <div class="sidebar-label">Data</div>
+            <button class="nav-item-btn" onclick="exportCSV()">
+                <i class="fas fa-file-csv"></i> Export CSV
+            </button>
+            <button class="nav-item-btn text-danger" onclick="confirmClearAll()">
+                <i class="fas fa-trash"></i> Clear All Data
             </button>
         </div>
-    </div>
 
-    <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-label">Overview</div>
-        <button class="nav-item-btn active" id="nav-dashboard" onclick="showSection('dashboard')">
-            <i class="fas fa-tachometer-alt"></i> Dashboard
-        </button>
+        <!-- Main -->
+        <div class="main-content">
 
-        <div class="sidebar-label">Results</div>
-        <button class="nav-item-btn" id="nav-all" onclick="showSection('all')">
-            <i class="fas fa-list-alt"></i> All Results
-        </button>
-        <button class="nav-item-btn" id="nav-science" onclick="showSection('science')">
-            <i class="fas fa-flask"></i> Science
-        </button>
-        <button class="nav-item-btn" id="nav-arts" onclick="showSection('arts')">
-            <i class="fas fa-palette"></i> Arts
-        </button>
-        <button class="nav-item-btn" id="nav-commercial" onclick="showSection('commercial')">
-            <i class="fas fa-briefcase"></i> Commercial
-        </button>
+            <!-- ── Dashboard Overview ── -->
+            <div id="sec-dashboard">
+                <h4 class="fw-bold mb-4">Dashboard Overview</h4>
 
-        <div class="sidebar-label">Students</div>
-        <button class="nav-item-btn" id="nav-students" onclick="showSection('students')">
-            <i class="fas fa-users"></i> Registered Students
-        </button>
-
-        <div class="sidebar-label">Data</div>
-        <button class="nav-item-btn" onclick="exportCSV()">
-            <i class="fas fa-file-csv"></i> Export CSV
-        </button>
-        <button class="nav-item-btn text-danger" onclick="confirmClearAll()">
-            <i class="fas fa-trash"></i> Clear All Data
-        </button>
-    </div>
-
-    <!-- Main -->
-    <div class="main-content">
-
-        <!-- ── Dashboard Overview ── -->
-        <div id="sec-dashboard">
-            <h4 class="fw-bold mb-4">Dashboard Overview</h4>
-
-            <!-- Stats row -->
-            <div class="row g-3 mb-4">
-                <div class="col-6 col-lg-2">
-                    <div class="stat-card sc-total">
-                        <i class="fas fa-users bg-icon"></i>
-                        <p>Total Students</p>
-                        <h2 id="totalStudents">0</h2>
-                    </div>
-                </div>
-                <div class="col-6 col-lg-2">
-                    <div class="stat-card sc-completed">
-                        <i class="fas fa-check-circle bg-icon"></i>
-                        <p>Completed</p>
-                        <h2 id="completedQuizzes">0</h2>
-                    </div>
-                </div>
-                <div class="col-4 col-lg-2">
-                    <div class="stat-card sc-science">
-                        <i class="fas fa-flask bg-icon"></i>
-                        <p>Science</p>
-                        <h2 id="scienceStudents">0</h2>
-                    </div>
-                </div>
-                <div class="col-4 col-lg-2">
-                    <div class="stat-card sc-arts">
-                        <i class="fas fa-palette bg-icon"></i>
-                        <p>Arts</p>
-                        <h2 id="artsStudents">0</h2>
-                    </div>
-                </div>
-                <div class="col-4 col-lg-2">
-                    <div class="stat-card sc-commercial">
-                        <i class="fas fa-briefcase bg-icon"></i>
-                        <p>Commercial</p>
-                        <h2 id="commercialStudents">0</h2>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-2">
-                    <div class="stat-card" style="background:linear-gradient(135deg,#64748b,#94a3b8)">
-                        <i class="fas fa-chart-bar bg-icon"></i>
-                        <p>Avg Score</p>
-                        <h2 id="overallAvg">—</h2>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row g-3">
-                <!-- Average scores -->
-                <div class="col-md-5">
-                    <div class="section-card h-100">
-                        <h5><i class="fas fa-chart-line me-2 text-primary"></i>Average by Category</h5>
-                        <div class="mb-3">
-                            <div class="d-flex justify-content-between"><span>Science</span><strong id="avgScienceScore">—</strong></div>
-                            <div class="perf-bar"><div class="perf-fill bg-info" id="avgScienceBar" style="width:0"></div></div>
+                <!-- Stats row -->
+                <div class="row g-3 mb-4">
+                    <div class="col-6 col-lg-2">
+                        <div class="stat-card sc-total">
+                            <i class="fas fa-users bg-icon"></i>
+                            <p>Total Students</p>
+                            <h2 id="totalStudents">0</h2>
                         </div>
-                        <div class="mb-3">
-                            <div class="d-flex justify-content-between"><span>Arts</span><strong id="avgArtsScore">—</strong></div>
-                            <div class="perf-bar"><div class="perf-fill bg-warning" id="avgArtsBar" style="width:0"></div></div>
+                    </div>
+                    <div class="col-6 col-lg-2">
+                        <div class="stat-card sc-completed">
+                            <i class="fas fa-check-circle bg-icon"></i>
+                            <p>Completed</p>
+                            <h2 id="completedQuizzes">0</h2>
                         </div>
-                        <div>
-                            <div class="d-flex justify-content-between"><span>Commercial</span><strong id="avgCommercialScore">—</strong></div>
-                            <div class="perf-bar"><div class="perf-fill bg-success" id="avgCommercialBar" style="width:0"></div></div>
+                    </div>
+                    <div class="col-4 col-lg-2">
+                        <div class="stat-card sc-science">
+                            <i class="fas fa-flask bg-icon"></i>
+                            <p>Science</p>
+                            <h2 id="scienceStudents">0</h2>
+                        </div>
+                    </div>
+                    <div class="col-4 col-lg-2">
+                        <div class="stat-card sc-arts">
+                            <i class="fas fa-palette bg-icon"></i>
+                            <p>Arts</p>
+                            <h2 id="artsStudents">0</h2>
+                        </div>
+                    </div>
+                    <div class="col-4 col-lg-2">
+                        <div class="stat-card sc-commercial">
+                            <i class="fas fa-briefcase bg-icon"></i>
+                            <p>Commercial</p>
+                            <h2 id="commercialStudents">0</h2>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-2">
+                        <div class="stat-card" style="background:linear-gradient(135deg,#64748b,#94a3b8)">
+                            <i class="fas fa-chart-bar bg-icon"></i>
+                            <p>Avg Score</p>
+                            <h2 id="overallAvg">—</h2>
                         </div>
                     </div>
                 </div>
 
-                <!-- Top performers -->
-                <div class="col-md-7">
-                    <div class="section-card h-100">
-                        <h5><i class="fas fa-trophy me-2 text-warning"></i>Top Performers</h5>
-                        <div id="topPerformers"><p class="text-muted">No results yet</p></div>
+                <div class="row g-3">
+                    <!-- Average scores -->
+                    <div class="col-md-5">
+                        <div class="section-card h-100">
+                            <h5><i class="fas fa-chart-line me-2 text-primary"></i>Average by Category</h5>
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between"><span>Science</span><strong
+                                        id="avgScienceScore">—</strong></div>
+                                <div class="perf-bar">
+                                    <div class="perf-fill bg-info" id="avgScienceBar" style="width:0"></div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between"><span>Arts</span><strong
+                                        id="avgArtsScore">—</strong></div>
+                                <div class="perf-bar">
+                                    <div class="perf-fill bg-warning" id="avgArtsBar" style="width:0"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="d-flex justify-content-between"><span>Commercial</span><strong
+                                        id="avgCommercialScore">—</strong></div>
+                                <div class="perf-bar">
+                                    <div class="perf-fill bg-success" id="avgCommercialBar" style="width:0"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Top performers -->
+                    <div class="col-md-7">
+                        <div class="section-card h-100">
+                            <h5><i class="fas fa-trophy me-2 text-warning"></i>Top Performers</h5>
+                            <div id="topPerformers">
+                                <p class="text-muted">No results yet</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent results -->
+                <div class="section-card mt-3">
+                    <h5><i class="fas fa-history me-2 text-secondary"></i>Recent Results</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th class="d-none d-md-table-cell">Email</th>
+                                    <th>Category</th>
+                                    <th>Score</th>
+                                    <th>%</th>
+                                    <th class="d-none d-lg-table-cell">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentResultsTable">
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted py-4">No results yet</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
 
-            <!-- Recent results -->
-            <div class="section-card mt-3">
-                <h5><i class="fas fa-history me-2 text-secondary"></i>Recent Results</h5>
-                <div class="table-responsive">
-                    <table class="table table-hover mb-0">
-                        <thead><tr>
-                            <th>Student</th><th>Email</th><th>Category</th>
-                            <th>Score</th><th>%</th><th>Date</th>
-                        </tr></thead>
-                        <tbody id="recentResultsTable">
-                            <tr><td colspan="6" class="text-center text-muted py-4">No results yet</td></tr>
-                        </tbody>
-                    </table>
+            <!-- ── All Results ── -->
+            <div id="sec-all" class="d-none">
+                <div class="d-flex flex-wrap gap-2 align-items-center mb-4">
+                    <h4 class="fw-bold mb-0 me-auto">All Quiz Results</h4>
+                    <button class="btn btn-success btn-sm" onclick="exportCSV()"><i
+                            class="fas fa-file-csv me-1"></i>Export CSV</button>
                 </div>
-            </div>
-        </div>
-
-        <!-- ── All Results ── -->
-        <div id="sec-all" class="d-none">
-            <div class="d-flex flex-wrap gap-2 align-items-center mb-4">
-                <h4 class="fw-bold mb-0 me-auto">All Quiz Results</h4>
-                <button class="btn btn-success btn-sm" onclick="exportCSV()"><i class="fas fa-file-csv me-1"></i>Export CSV</button>
-            </div>
-            <div class="section-card mb-3">
-                <div class="row g-2">
-                    <div class="col-md-5"><input type="text" id="searchInput" class="form-control" placeholder="Search name or email…" oninput="filterResults()"></div>
-                    <div class="col-md-3">
-                        <select id="categoryFilter" class="form-select" onchange="filterResults()">
-                            <option value="">All Categories</option>
-                            <option value="science">Science</option>
-                            <option value="arts">Arts</option>
-                            <option value="commercial">Commercial</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <select id="scoreFilter" class="form-select" onchange="filterResults()">
-                            <option value="">All Scores</option>
-                            <option value="90">≥ 90%</option>
-                            <option value="70">≥ 70%</option>
-                            <option value="50">≥ 50%</option>
-                            <option value="below50">Below 50%</option>
-                        </select>
+                <div class="section-card mb-3">
+                    <div class="row g-2">
+                        <div class="col-md-5"><input type="text" id="searchInput" class="form-control"
+                                placeholder="Search name or email…" oninput="filterResults()"></div>
+                        <div class="col-md-3">
+                            <select id="categoryFilter" class="form-select" onchange="filterResults()">
+                                <option value="">All Categories</option>
+                                <option value="science">Science</option>
+                                <option value="arts">Arts</option>
+                                <option value="commercial">Commercial</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select id="scoreFilter" class="form-select" onchange="filterResults()">
+                                <option value="">All Scores</option>
+                                <option value="90">≥ 90%</option>
+                                <option value="70">≥ 70%</option>
+                                <option value="50">≥ 50%</option>
+                                <option value="below50">Below 50%</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="section-card">
-                <div class="table-responsive">
-                    <table class="table table-hover mb-0">
-                        <thead><tr><th>#</th><th>Student</th><th>Email</th><th>Category</th><th>Score</th><th>%</th><th>Time</th><th>Date</th><th></th></tr></thead>
-                        <tbody id="allResultsTable"><tr><td colspan="9" class="text-center text-muted py-4">No results yet</td></tr></tbody>
-                    </table>
+                <div class="section-card">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Student</th>
+                                    <th class="d-none d-md-table-cell">Email</th>
+                                    <th>Category</th>
+                                    <th>Score</th>
+                                    <th>%</th>
+                                    <th class="d-none d-lg-table-cell">Time</th>
+                                    <th class="d-none d-lg-table-cell">Date</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="allResultsTable">
+                                <tr>
+                                    <td colspan="9" class="text-center text-muted py-4">No results yet</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- ── Science Results ── -->
-        <div id="sec-science" class="d-none">
-            <div class="d-flex align-items-center mb-4 gap-2">
-                <h4 class="fw-bold mb-0 me-auto"><i class="fas fa-flask me-2 text-info"></i>Science Results</h4>
-                <button class="btn btn-success btn-sm" onclick="exportCategoryCSV('science')"><i class="fas fa-file-csv me-1"></i>Export</button>
-            </div>
-            <div class="section-card">
-                <div class="table-responsive">
-                    <table class="table table-hover mb-0">
-                        <thead class="table-info"><tr><th>#</th><th>Student</th><th>Email</th><th>Maths</th><th>English</th><th>Physics</th><th>Biology</th><th>Chemistry</th><th>Total</th><th>%</th><th>Date</th></tr></thead>
-                        <tbody id="scienceResultsTable"><tr><td colspan="11" class="text-center text-muted py-4">No science results yet</td></tr></tbody>
-                    </table>
+            <!-- ── Science Results ── -->
+            <div id="sec-science" class="d-none">
+                <div class="d-flex align-items-center mb-4 gap-2">
+                    <h4 class="fw-bold mb-0 me-auto"><i class="fas fa-flask me-2 text-info"></i>Science Results</h4>
+                    <button class="btn btn-success btn-sm" onclick="exportCategoryCSV('science')"><i
+                            class="fas fa-file-csv me-1"></i>Export</button>
+                </div>
+                <div class="section-card">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-info">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Student</th>
+                                    <th class="d-none d-md-table-cell">Email</th>
+                                    <th>Maths</th>
+                                    <th>English</th>
+                                    <th class="d-none d-lg-table-cell">Physics</th>
+                                    <th class="d-none d-lg-table-cell">Biology</th>
+                                    <th class="d-none d-lg-table-cell">Chemistry</th>
+                                    <th>Total</th>
+                                    <th>%</th>
+                                    <th class="d-none d-lg-table-cell">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="scienceResultsTable">
+                                <tr>
+                                    <td colspan="11" class="text-center text-muted py-4">No science results yet</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- ── Arts Results ── -->
-        <div id="sec-arts" class="d-none">
-            <div class="d-flex align-items-center mb-4 gap-2">
-                <h4 class="fw-bold mb-0 me-auto"><i class="fas fa-palette me-2 text-warning"></i>Arts Results</h4>
-                <button class="btn btn-success btn-sm" onclick="exportCategoryCSV('arts')"><i class="fas fa-file-csv me-1"></i>Export</button>
-            </div>
-            <div class="section-card">
-                <div class="table-responsive">
-                    <table class="table table-hover mb-0">
-                        <thead class="table-warning"><tr><th>#</th><th>Student</th><th>Email</th><th>English</th><th>Literature</th><th>Government</th><th>CRS</th><th>Total</th><th>%</th><th>Date</th></tr></thead>
-                        <tbody id="artsResultsTable"><tr><td colspan="10" class="text-center text-muted py-4">No arts results yet</td></tr></tbody>
-                    </table>
+            <!-- ── Arts Results ── -->
+            <div id="sec-arts" class="d-none">
+                <div class="d-flex align-items-center mb-4 gap-2">
+                    <h4 class="fw-bold mb-0 me-auto"><i class="fas fa-palette me-2 text-warning"></i>Arts Results</h4>
+                    <button class="btn btn-success btn-sm" onclick="exportCategoryCSV('arts')"><i
+                            class="fas fa-file-csv me-1"></i>Export</button>
+                </div>
+                <div class="section-card">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-warning">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Student</th>
+                                    <th class="d-none d-md-table-cell">Email</th>
+                                    <th>Maths</th>
+                                    <th>English</th>
+                                    <th class="d-none d-lg-table-cell">Literature</th>
+                                    <th class="d-none d-lg-table-cell">Government</th>
+                                    <th>CRS</th>
+                                    <th>Total</th>
+                                    <th>%</th>
+                                    <th class="d-none d-lg-table-cell">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="artsResultsTable">
+                                <tr>
+                                    <td colspan="10" class="text-center text-muted py-4">No arts results yet</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- ── Commercial Results ── -->
-        <div id="sec-commercial" class="d-none">
-            <div class="d-flex align-items-center mb-4 gap-2">
-                <h4 class="fw-bold mb-0 me-auto"><i class="fas fa-briefcase me-2 text-success"></i>Commercial Results</h4>
-                <button class="btn btn-success btn-sm" onclick="exportCategoryCSV('commercial')"><i class="fas fa-file-csv me-1"></i>Export</button>
-            </div>
-            <div class="section-card">
-                <div class="table-responsive">
-                    <table class="table table-hover mb-0">
-                        <thead class="table-success"><tr><th>#</th><th>Student</th><th>Email</th><th>Maths</th><th>English</th><th>Economics</th><th>Commerce</th><th>Accounting</th><th>Total</th><th>%</th><th>Date</th></tr></thead>
-                        <tbody id="commercialResultsTable"><tr><td colspan="11" class="text-center text-muted py-4">No commercial results yet</td></tr></tbody>
-                    </table>
+            <!-- ── Commercial Results ── -->
+            <div id="sec-commercial" class="d-none">
+                <div class="d-flex align-items-center mb-4 gap-2">
+                    <h4 class="fw-bold mb-0 me-auto"><i class="fas fa-briefcase me-2 text-success"></i>Commercial
+                        Results</h4>
+                    <button class="btn btn-success btn-sm" onclick="exportCategoryCSV('commercial')"><i
+                            class="fas fa-file-csv me-1"></i>Export</button>
+                </div>
+                <div class="section-card">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-success">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Student</th>
+                                    <th class="d-none d-md-table-cell">Email</th>
+                                    <th>Maths</th>
+                                    <th>English</th>
+                                    <th class="d-none d-lg-table-cell">Economics</th>
+                                    <th class="d-none d-lg-table-cell">Commerce</th>
+                                    <th class="d-none d-lg-table-cell">Accounting</th>
+                                    <th>Total</th>
+                                    <th>%</th>
+                                    <th class="d-none d-lg-table-cell">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="commercialResultsTable">
+                                <tr>
+                                    <td colspan="11" class="text-center text-muted py-4">No commercial results yet</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- ── Students ── -->
-        <div id="sec-students" class="d-none">
-            <div class="d-flex align-items-center mb-4 gap-2">
-                <h4 class="fw-bold mb-0 me-auto"><i class="fas fa-users me-2"></i>Registered Students</h4>
-                <button class="btn btn-outline-danger btn-sm" onclick="confirmClearStudents()"><i class="fas fa-trash me-1"></i>Clear All</button>
-            </div>
-            <div class="section-card">
-                <div class="table-responsive">
-                    <table class="table table-hover mb-0">
-                        <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Registered</th><th>Status</th><th>Category</th><th></th></tr></thead>
-                        <tbody id="studentsTable"><tr><td colspan="7" class="text-center text-muted py-4">No students registered</td></tr></tbody>
-                    </table>
+            <!-- ── Students ── -->
+            <div id="sec-students" class="d-none">
+                <div class="d-flex align-items-center mb-4 gap-2">
+                    <h4 class="fw-bold mb-0 me-auto"><i class="fas fa-users me-2"></i>Registered Students</h4>
+                    <button class="btn btn-outline-danger btn-sm" onclick="confirmClearStudents()"><i
+                            class="fas fa-trash me-1"></i>Clear All</button>
+                </div>
+                <div class="section-card">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th class="d-none d-md-table-cell">Email</th>
+                                    <th class="d-none d-md-table-cell">Registered</th>
+                                    <th>Status</th>
+                                    <th class="d-none d-sm-table-cell">Category</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="studentsTable">
+                                <tr>
+                                    <td colspan="7" class="text-center text-muted py-4">No students registered</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
 
-    </div><!-- /main-content -->
-</div><!-- /adminDashboard -->
+        </div><!-- /main-content -->
+    </div><!-- /adminDashboard -->
 
-<!-- Confirm Modal -->
-<div class="modal fade" id="confirmModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-sm">
-        <div class="modal-content border-0 shadow-lg">
-            <div class="modal-header border-0 bg-danger text-white rounded-top">
-                <h6 class="modal-title fw-bold"><i class="fas fa-exclamation-triangle me-2"></i><span id="confirmTitle">Confirm</span></h6>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body pt-3"><p id="confirmMessage" class="mb-1"></p><p class="text-danger small fw-semibold">This cannot be undone.</p></div>
-            <div class="modal-footer border-0">
-                <button class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
-                <button class="btn btn-danger btn-sm" id="confirmBtn">Confirm</button>
+    <!-- Confirm Modal -->
+    <div class="modal fade" id="confirmModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header border-0 bg-danger text-white rounded-top">
+                    <h6 class="modal-title fw-bold"><i class="fas fa-exclamation-triangle me-2"></i><span
+                            id="confirmTitle">Confirm</span></h6>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body pt-3">
+                    <p id="confirmMessage" class="mb-1"></p>
+                    <p class="text-danger small fw-semibold">This cannot be undone.</p>
+                </div>
+                <div class="modal-footer border-0">
+                    <button class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                    <button class="btn btn-danger btn-sm" id="confirmBtn">Confirm</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Details Modal -->
-<div class="modal fade" id="detailsModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content border-0 shadow-lg">
-            <div class="modal-header border-0" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">
-                <h5 class="modal-title text-white fw-bold"><i class="fas fa-user-circle me-2"></i>Student Details</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+    <!-- Details Modal -->
+    <div class="modal fade" id="detailsModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header border-0" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">
+                    <h5 class="modal-title text-white fw-bold"><i class="fas fa-user-circle me-2"></i>Student Details
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="detailsBody"></div>
             </div>
-            <div class="modal-body" id="detailsBody"></div>
         </div>
     </div>
-</div>
 
-<!-- Toast -->
-<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index:9999">
-    <div id="adminToast" class="toast align-items-center border-0" role="alert">
-        <div class="d-flex">
-            <div class="toast-body fw-semibold" id="adminToastMessage"></div>
-            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"></button>
+    <!-- Toast -->
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index:9999">
+        <div id="adminToast" class="toast align-items-center border-0" role="alert">
+            <div class="d-flex">
+                <div class="toast-body fw-semibold" id="adminToastMessage"></div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
         </div>
     </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="js/admin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/admin.js"></script>
 </body>
+
 </html>
