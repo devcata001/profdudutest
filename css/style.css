@@ -294,6 +294,11 @@ body {
     border-color: rgba(245, 158, 11, 0.3);
 }
 
+/* Equal-height category card columns */
+.category-row>[class*="col-"] {
+    display: flex;
+}
+
 /* Category Cards */
 .category-card {
     background: rgba(255, 255, 255, 0.95);
@@ -303,6 +308,9 @@ body {
     overflow: hidden;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
 .category-card:hover {
@@ -318,6 +326,9 @@ body {
     position: relative;
     z-index: 1;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 .category-icon-wrapper {
@@ -349,6 +360,8 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     gap: 8px;
+    flex: 1;
+    align-content: flex-start;
 }
 
 .subject-tag {
@@ -547,7 +560,10 @@ body {
     font-size: 1.1rem;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     box-shadow: var(--shadow);
+    white-space: nowrap;
+    max-width: 100%;
 }
 
 .timer-box.warning {
@@ -1225,6 +1241,22 @@ body {
     .info-badge {
         padding: 0.5rem 1rem;
         font-size: 0.85rem;
+    }
+
+    .timer-box {
+        font-size: 0.78rem;
+        padding: 0.35rem 0.6rem;
+        display: flex;
+        width: 100%;
+    }
+
+    .subject-indicator {
+        font-size: 0.72rem;
+    }
+
+    .progress-indicator {
+        font-size: 0.72rem;
+        padding: 0.35rem 0.5rem;
     }
 
     h1.display-5 {
