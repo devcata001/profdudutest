@@ -33,10 +33,18 @@ async function apiCall(endpoint, method = 'GET', data = null) {
 
     try {
         const response = await fetch(`${API_BASE}${endpoint}`, options);
-        const result = await response.json();
+        const text = await response.text();
+
+        let result;
+        try {
+            result = JSON.parse(text);
+        } catch (parseErr) {
+            console.error('Non-JSON response from', endpoint, ':', text.slice(0, 200));
+            throw new Error('Server error — please try again shortly.');
+        }
 
         if (!response.ok) {
-            throw new Error(result.message || 'API request failed');
+            throw new Error(result.message || 'Request failed');
         }
 
         return result;

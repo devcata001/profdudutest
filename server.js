@@ -31,15 +31,19 @@ if (!IS_VERCEL && !fs.existsSync(DATA_DIR)) {
     fs.mkdirSync(DATA_DIR, { recursive: true });
 }
 
-// Initialize data files if they don't exist
-// On Vercel: copy seed files from the repo into /tmp on first cold start
+// Initialize /tmp data files on cold start (safe — never throws)
 function ensureFile(tmpFile, seedFile) {
-    if (!fs.existsSync(tmpFile)) {
-        if (fs.existsSync(seedFile)) {
-            fs.copyFileSync(seedFile, tmpFile);
-        } else {
-            fs.writeFileSync(tmpFile, JSON.stringify([]));
+    try {
+        if (!fs.existsSync(tmpFile)) {
+            if (seedFile && fs.existsSync(seedFile)) {
+                fs.copyFileSync(seedFile, tmpFile);
+            } else {
+                fs.writeFileSync(tmpFile, JSON.stringify([]));
+            }
         }
+    } catch (e) {
+        // If even /tmp write fails, continue — reads will return [] via readUsers/readResults
+        console.error('ensureFile error:', e.message);
     }
 }
 ensureFile(USERS_FILE, SEED_USERS);
