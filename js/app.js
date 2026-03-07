@@ -434,10 +434,22 @@ function goToQuestion(index) {
 }
 
 function startTimer() {
+    // Use wall-clock end time so the timer survives tab switches / browser closes
+    const endTimeKey = 'profdudu_quiz_end_time_' + (currentUser && currentUser.id);
+    const saved = localStorage.getItem(endTimeKey);
+    if (saved) {
+        const remaining = Math.round((parseInt(saved) - Date.now()) / 1000);
+        timeRemaining = remaining > 0 ? remaining : 0;
+    } else {
+        localStorage.setItem(endTimeKey, Date.now() + timeRemaining * 1000);
+    }
+
     updateTimerDisplay();
 
     timerInterval = setInterval(() => {
-        timeRemaining--;
+        // Always recalculate from wall-clock so pausing the tab doesn't pause the timer
+        const endTime = parseInt(localStorage.getItem(endTimeKey));
+        timeRemaining = endTime ? Math.max(0, Math.round((endTime - Date.now()) / 1000)) : timeRemaining - 1;
         updateTimerDisplay();
 
         if (timeRemaining <= 0) {
@@ -489,10 +501,13 @@ async function confirmSubmit() {
     const modal = bootstrap.Modal.getInstance(document.getElementById('confirmSubmitModal'));
     if (modal) modal.hide();
 
-    // Stop timer
+    // Stop timer and clear persisted end time
     if (timerInterval) {
         clearInterval(timerInterval);
         timerInterval = null;
+    }
+    if (currentUser) {
+        localStorage.removeItem('profdudu_quiz_end_time_' + currentUser.id);
     }
 
     // Calculate results
@@ -670,27 +685,27 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Prevent page refresh during quiz
-    window.addEventListener('beforeunload', function (e) {
-        if (timerInterval) {
-            e.preventDefault();
-            e.returnValue = 'You have an ongoing quiz. Are you sure you want to leave?';
-        }
-    });
+    // ── Prevent page refresh during quiz (SECURITY — DISABLED) ──────────────
+    // window.addEventListener('beforeunload', function (e) {
+    //     if (timerInterval) {
+    //         e.preventDefault();
+    //         e.returnValue = 'You have an ongoing quiz. Are you sure you want to leave?';
+    //     }
+    // });
 });
 
-// ── Auto-submit on tab switch ────────────────────────────────────────────────
-document.addEventListener('visibilitychange', function () {
-    if (!timerInterval) return; // Only active during quiz
-    if (document.hidden) {
-        clearInterval(timerInterval);
-        timerInterval = null;
-        showToast('⚠ Exam Terminated', 'Your exam has been auto-submitted because you switched tabs!', 'error');
-        setTimeout(() => confirmSubmit(), 1200);
-    }
-});
+// ── Auto-submit on tab switch (SECURITY — DISABLED) ──────────────────────────
+// document.addEventListener('visibilitychange', function () {
+//     if (!timerInterval) return;
+//     if (document.hidden) {
+//         clearInterval(timerInterval);
+//         timerInterval = null;
+//         showToast('⚠ Exam Terminated', 'Your exam has been auto-submitted because you switched tabs!', 'error');
+//         setTimeout(() => confirmSubmit(), 1200);
+//     }
+// });
 
-window.addEventListener('blur', function () {
-    if (!timerInterval) return;
-    showToast('⚠ Stay Focused', 'Please stay on this tab during the exam!', 'warning');
-});
+// window.addEventListener('blur', function () {
+//     if (!timerInterval) return;
+//     showToast('⚠ Stay Focused', 'Please stay on this tab during the exam!', 'warning');
+// });

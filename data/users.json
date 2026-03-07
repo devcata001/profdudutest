@@ -430,5 +430,14 @@
     "registeredDate": "2026-02-27T22:08:48.181Z",
     "quizAttempted": true,
     "category": "science"
+  },
+  {
+    "id": 1772869591983,
+    "name": "AAA",
+    "email": "dan@yahoo.com",
+    "password": "12345678",
+    "registeredDate": "2026-03-07T07:46:31.983Z",
+    "quizAttempted": false,
+    "category": "science"
   }
 ]
