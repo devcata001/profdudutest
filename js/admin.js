@@ -424,10 +424,75 @@ function resetStudentConfirm(userId, name) {
         toast('Student reset'); loadStudents();
     });
 }
+
+function clearDashboardUI() {
+    document.getElementById('totalStudents').textContent = '0';
+    document.getElementById('completedQuizzes').textContent = '0';
+    document.getElementById('scienceStudents').textContent = '0';
+    document.getElementById('artsStudents').textContent = '0';
+    document.getElementById('commercialStudents').textContent = '0';
+    document.getElementById('overallAvg').textContent = '—';
+
+    const avgIds = ['avgScienceScore', 'avgArtsScore', 'avgCommercialScore'];
+    const barIds = ['avgScienceBar', 'avgArtsBar', 'avgCommercialBar'];
+    avgIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = '—';
+    });
+    barIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.width = '0';
+    });
+
+    const top = document.getElementById('topPerformers');
+    if (top) top.innerHTML = '<p class="text-muted">No results yet</p>';
+
+    const setEmpty = (id, cols, text) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.innerHTML = `<tr><td colspan="${cols}" class="text-center text-muted py-4">${text}</td></tr>`;
+    };
+
+    setEmpty('recentResultsTable', 6, 'No results yet');
+    setEmpty('allResultsTable', 9, 'No results yet');
+    setEmpty('scienceResultsTable', 11, 'No science results yet');
+    setEmpty('artsResultsTable', 11, 'No arts results yet');
+    setEmpty('commercialResultsTable', 11, 'No commercial results yet');
+    setEmpty('bestOverallTable', 7, 'No results yet');
+    setEmpty('studentsTable', 7, 'No students registered');
+}
+
+async function refreshAdminData() {
+    await Promise.all([
+        loadDashboard(),
+        loadAllResults(),
+        loadCategoryResults('science'),
+        loadCategoryResults('arts'),
+        loadCategoryResults('commercial'),
+        loadBestStudents(),
+        loadStudents()
+    ]);
+}
+
 function confirmClearAll() {
     showConfirm('Clear ALL Data', 'Delete ALL students and results? This wipes everything.', async () => {
-        await apiCall('/api/admin/clear-all', 'POST');
-        toast('All data cleared'); loadDashboard();
+        try {
+            await apiCall('/api/admin/clear-all', 'POST');
+            _allResults = [];
+
+            const search = document.getElementById('searchInput');
+            const category = document.getElementById('categoryFilter');
+            const score = document.getElementById('scoreFilter');
+            if (search) search.value = '';
+            if (category) category.value = '';
+            if (score) score.value = '';
+
+            clearDashboardUI();
+            await refreshAdminData();
+            toast('All data cleared for new edition');
+        } catch (_e) {
+            toast('Failed to clear all data', 'error');
+        }
     });
 }
 function confirmClearStudents() {

@@ -653,10 +653,46 @@ function showResults(results) {
 }
 
 // ============================================
+// UPDATE CARD COUNTS
+// ============================================
+
+function updateCardCounts() {
+    if (typeof questionsData === 'undefined') return;
+
+    const categories = ['science', 'arts', 'commercial'];
+
+    categories.forEach(cat => {
+        let totalQuestions = 0;
+
+        // Calculate total questions in this category
+        if (questionsData[cat]) {
+            for (const subject in questionsData[cat]) {
+                const subjectObj = questionsData[cat][subject];
+                if (subjectObj && subjectObj.questions && Array.isArray(subjectObj.questions)) {
+                    totalQuestions += subjectObj.questions.length;
+                }
+            }
+        }
+
+        // Update the card count display
+        const card = document.getElementById(cat + 'Card');
+        if (card) {
+            const countElement = card.querySelector('.count-number');
+            if (countElement) {
+                countElement.textContent = totalQuestions;
+            }
+        }
+    });
+}
+
+// ============================================
 // INITIALIZATION
 // ============================================
 
 document.addEventListener('DOMContentLoaded', function () {
+    // Update question counts on cards
+    updateCardCounts();
+
     // If device is locked, still show the login form so a reset user can log in
     // The actual lock enforcement happens in showCategorySection after login
     const deviceLocked = localStorage.getItem('profdudu_device_locked') === '1';
