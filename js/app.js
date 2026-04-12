@@ -13,7 +13,7 @@ let currentQuestionIndex = 0;
 let allQuestions = [];
 let userAnswers = {};
 let timerInterval = null;
-let timeRemaining = 45 * 60; // 45 minutes in seconds
+let timeRemaining = 90 * 60; // 1 hour 30 minutes in seconds
 let quizStartTime = null;
 
 // ============================================
@@ -270,7 +270,7 @@ async function startQuiz(category) {
     currentCategory = category;
     currentQuestionIndex = 0;
     userAnswers = {};
-    timeRemaining = 45 * 60; // Reset timer to 45 minutes
+    timeRemaining = 90 * 60; // Reset timer to 1 hour 30 minutes
     quizStartTime = new Date();
 
     // Lock user's category choice
@@ -293,8 +293,8 @@ async function startQuiz(category) {
     // Load first question
     loadQuestion(0);
 
-    // Start timer
-    startTimer();
+    // Start timer (fresh duration for each new attempt)
+    startTimer(true);
 }
 
 function buildQuestionNavigator() {
@@ -433,9 +433,12 @@ function goToQuestion(index) {
     loadQuestion(index);
 }
 
-function startTimer() {
+function startTimer(forceReset = false) {
     // Use wall-clock end time so the timer survives tab switches / browser closes
     const endTimeKey = 'profdudu_quiz_end_time_' + (currentUser && currentUser.id);
+    if (forceReset) {
+        localStorage.removeItem(endTimeKey);
+    }
     const saved = localStorage.getItem(endTimeKey);
     if (saved) {
         const remaining = Math.round((parseInt(saved) - Date.now()) / 1000);
@@ -568,7 +571,7 @@ function calculateResults() {
     });
 
     const percentage = Math.round((totalScore / allQuestions.length) * 100);
-    const timeSpent = Math.round((45 * 60 - timeRemaining) / 60); // in minutes
+    const timeSpent = Math.round((90 * 60 - timeRemaining) / 60); // in minutes
 
     return {
         userId: currentUser.id,

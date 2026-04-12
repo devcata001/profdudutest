@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "id": 1775952983476,
+    "name": "A",
+    "email": "globalcatalystofficial@gmail.com",
+    "password": "111111",
+    "registeredDate": "2026-04-12T00:16:23.476Z",
+    "quizAttempted": false,
+    "category": "science"
+  }
+]
