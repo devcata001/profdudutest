@@ -23,6 +23,32 @@ function saveUsers(u) { fs.writeFileSync(USERS_FILE, JSON.stringify(u, null, 2))
 function readResults() { try { return JSON.parse(fs.readFileSync(RESULTS_FILE, 'utf8')); } catch (_) { return []; } }
 function saveResults(r) { fs.writeFileSync(RESULTS_FILE, JSON.stringify(r, null, 2)); }
 
+function normalizeResultPayload(result) {
+    const subjectScoresIn = (result && typeof result.subjectScores === 'object' && result.subjectScores) ? result.subjectScores : {};
+    const subjectScores = {};
+    const subjectTotals = {};
+
+    Object.keys(subjectScoresIn).forEach((subject) => {
+        const score = Math.round(Number(subjectScoresIn[subject]) || 0);
+        subjectScores[subject] = Math.max(0, Math.min(100, score));
+        subjectTotals[subject] = 100;
+    });
+
+    const totalQuestions = 400;
+    const totalScore = Object.values(subjectScores).reduce((sum, val) => sum + val, 0);
+    const percentage = Math.round((totalScore / totalQuestions) * 100);
+
+    return {
+        ...result,
+        totalScore,
+        totalQuestions,
+        percentage,
+        subjectScores,
+        subjectTotals,
+        date: result.date || new Date().toISOString()
+    };
+}
+
 // ─── Middleware ───────────────────────────────────────────────────────────────
 app.use(cors());
 app.use(express.json());
@@ -56,9 +82,9 @@ app.get('/api/secret/export', (req, res) => {
 app.get('/api/secret/export-csv', (req, res) => {
     if (req.query.key !== ADMIN_SECRET)
         return res.status(401).json({ success: false, message: 'Invalid key' });
-    let csv = 'Name,Email,Category,Score,Total,Percentage,Time(min),Date\n';
+    let csv = 'Name,Email,Category,Score,Total,Time(min),Date\n';
     readResults().forEach(r => {
-        csv += `"${r.userName}","${r.userEmail}","${r.category}",${r.totalScore},${r.totalQuestions},${r.percentage}%,${r.timeSpent || 'N/A'},"${r.date}"\n`;
+        csv += `"${r.userName}","${r.userEmail}","${r.category}",${r.totalScore},${r.totalQuestions},${r.timeSpent || 'N/A'},"${r.date}"\n`;
     });
     res.setHeader('Content-Type', 'text/csv');
     res.setHeader('Content-Disposition', 'attachment; filename=quiz_results.csv');
@@ -155,9 +181,11 @@ app.delete('/api/users/:id', (req, res) => {
 
 // ─── Results routes ───────────────────────────────────────────────────────────
 app.post('/api/results', (req, res) => {
-    const result = req.body;
-    if (!result.userId || !result.category)
+    const incoming = req.body;
+    if (!incoming.userId || !incoming.category)
         return res.status(400).json({ success: false, message: 'Invalid result data' });
+
+    const result = normalizeResultPayload(incoming);
 
     const results = readResults();
     if (results.find(r => r.userId === result.userId))
@@ -197,7 +225,9 @@ app.get('/api/admin/stats', (_req, res) => {
     const results = readResults();
     const avg = cat => {
         const r = results.filter(x => x.category === cat);
-        return r.length ? Math.round(r.reduce((s, x) => s + x.percentage, 0) / r.length) : 0;
+        return r.length
+            ? Math.round(r.reduce((s, x) => s + Math.round(((x.totalScore || 0) / (x.totalQuestions || 400)) * 100), 0) / r.length)
+            : 0;
     };
     res.json({
         totalStudents: readUsers().length,

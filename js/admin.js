@@ -219,7 +219,7 @@ async function loadCategoryResults(cat) {
             <td class="text-muted d-none d-md-table-cell" style="font-size:.8rem">${r.userEmail}</td>
             ${cols.map(s => {
             const score = r.subjectScores?.[s];
-            const total = r.subjectTotals?.[s] || 30;
+            const total = r.subjectTotals?.[s] || 100;
             return `<td class="${HIDE_ON_LG.includes(s) ? 'd-none d-lg-table-cell' : ''}">${score ?? '—'}/${total}</td>`;
         }).join('')}
             <td><strong>${r.totalScore}/${r.totalQuestions}</strong></td>
@@ -286,7 +286,7 @@ async function loadBestStudents() {
             let scoreHtml, pct;
             if (best && bestScore >= 0) {
                 // has real per-subject data
-                const total = best.subjectTotals?.[subj] || 20;
+                const total = best.subjectTotals?.[subj] || 100;
                 pct = Math.round(bestScore / total * 100);
                 scoreHtml = `<strong>${bestScore}</strong><span class="text-muted">/${total}</span>`;
             } else {
@@ -382,8 +382,8 @@ async function viewDetails(userId) {
                     ${Object.entries(result.subjectScores || {}).map(([s, sc]) => `
                         <div class="d-flex align-items-center gap-2 mb-2">
                             <span style="width:110px;font-size:.8rem;text-transform:capitalize">${s}</span>
-                            <div class="perf-bar flex-grow-1"><div class="perf-fill bg-primary" style="width:${Math.round(sc / (result.subjectTotals?.[s] || 20) * 100)}%"></div></div>
-                            <span style="font-size:.8rem;width:50px;text-align:right">${sc}/${result.subjectTotals?.[s] || 20}</span>
+                            <div class="perf-bar flex-grow-1"><div class="perf-fill bg-primary" style="width:${Math.round(sc / (result.subjectTotals?.[s] || 100) * 100)}%"></div></div>
+                            <span style="font-size:.8rem;width:65px;text-align:right">${sc}/${result.subjectTotals?.[s] || 100}</span>
                         </div>`).join('')}
                 </div>` : '<div class="col-12"><p class="text-muted text-center py-2">No quiz result yet</p></div>'}
             </div>`;

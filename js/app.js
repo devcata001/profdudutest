@@ -397,7 +397,7 @@ async function showCategorySection() {
             // User has already attempted
             document.getElementById('alreadyAttempted').classList.remove('d-none');
             document.getElementById('attemptedMessage').textContent =
-                `You have already completed the ${userResult.category.toUpperCase()} quiz with a score of ${userResult.totalScore}/${userResult.totalQuestions} (${userResult.percentage}%).`;
+                `You have already completed the ${userResult.category.toUpperCase()} quiz with a score of ${userResult.totalScore}/${userResult.totalQuestions}.`;
 
             // Disable all cards
             document.getElementById('scienceCard').classList.add('disabled');
@@ -739,7 +739,7 @@ function calculateResults() {
         return (str || '').trim().toLowerCase().replace(/\s+/g, ' ').replace(/[.,;:!?]+$/, '');
     }
 
-    // Calculate scores
+    // Calculate raw scores
     allQuestions.forEach((question, index) => {
         const userAnswer = userAnswers[index];
         let isCorrect = false;
@@ -758,12 +758,22 @@ function calculateResults() {
         }
 
         if (isCorrect) {
-            totalScore++;
             subjectScores[question.subject]++;
         }
     });
 
-    const percentage = Math.round((totalScore / allQuestions.length) * 100);
+    // Normalize each selected subject to /100 using (subjectScore / 30) * 100
+    for (const subjectKey in subjectScores) {
+        const rawScore = subjectScores[subjectKey];
+        const normalizedScore = Math.round((rawScore / QUESTIONS_PER_SUBJECT) * 100);
+
+        subjectScores[subjectKey] = normalizedScore;
+        subjectTotals[subjectKey] = 100;
+        totalScore += normalizedScore;
+    }
+
+    const totalQuestions = MAX_MOCK_SUBJECTS * 100;
+    const percentage = Math.round((totalScore / totalQuestions) * 100);
     const timeSpent = Math.round((90 * 60 - timeRemaining) / 60); // in minutes
 
     return {
@@ -772,7 +782,7 @@ function calculateResults() {
         userEmail: currentUser.email,
         category: currentCategory,
         totalScore: totalScore,
-        totalQuestions: allQuestions.length,
+        totalQuestions: totalQuestions,
         percentage: percentage,
         subjectScores: subjectScores,
         subjectTotals: subjectTotals,
@@ -786,22 +796,23 @@ function showResults(results) {
     document.getElementById('quizSection').classList.add('d-none');
     document.getElementById('resultsSection').classList.remove('d-none');
 
-    // Update result message and trophy based on percentage
+    // Update result message and trophy based on overall performance
     const trophyCircle = document.getElementById('trophyCircle');
     const resultIcon = document.getElementById('resultIcon');
     const resultMessage = document.getElementById('resultMessage');
+    const overallPercent = Math.round((results.totalScore / results.totalQuestions) * 100);
 
     trophyCircle.className = 'trophy-circle';
 
-    if (results.percentage >= 80) {
+    if (overallPercent >= 80) {
         trophyCircle.classList.add('gold');
         resultIcon.className = 'fas fa-trophy';
         resultMessage.textContent = 'Excellent! Outstanding performance!';
-    } else if (results.percentage >= 60) {
+    } else if (overallPercent >= 60) {
         trophyCircle.classList.add('silver');
         resultIcon.className = 'fas fa-medal';
         resultMessage.textContent = 'Good job! You did well!';
-    } else if (results.percentage >= 40) {
+    } else if (overallPercent >= 40) {
         trophyCircle.classList.add('bronze');
         resultIcon.className = 'fas fa-thumbs-up';
         resultMessage.textContent = 'Fair performance. Keep studying!';
@@ -811,11 +822,10 @@ function showResults(results) {
         resultMessage.textContent = 'Keep learning! Practice makes perfect.';
     }
 
-    // Update scores
-    document.getElementById('totalScore').textContent = results.totalScore;
-    document.getElementById('totalQuestions').textContent = results.totalQuestions;
-    document.getElementById('percentage').textContent = `${results.percentage}%`;
-    document.getElementById('timeSpent').textContent = results.timeSpent;
+    const finalScoreDisplay = document.getElementById('finalScoreDisplay');
+    if (finalScoreDisplay) {
+        finalScoreDisplay.textContent = `Final Score: ${results.totalScore}/${results.totalQuestions}`;
+    }
 
     // Build subject breakdown with new UI
     const breakdown = document.getElementById('subjectBreakdown');

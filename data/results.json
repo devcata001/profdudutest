@@ -1,1 +1,29 @@
-[]
+[
+  {
+    "userId": 1776093730085,
+    "userName": "olaoye",
+    "userEmail": "julia23@gmail.com",
+    "category": "science",
+    "totalScore": 3,
+    "totalQuestions": 400,
+    "percentage": 1,
+    "subjectScores": {
+      "english": 0,
+      "physics": 3,
+      "chemistry": 0,
+      "maths": 0
+    },
+    "subjectTotals": {
+      "english": 100,
+      "physics": 100,
+      "chemistry": 100,
+      "maths": 100
+    },
+    "timeSpent": 0,
+    "date": "2026-04-13T15:40:35.911Z",
+    "answers": {
+      "11": "B",
+      "50": "A"
+    }
+  }
+]
