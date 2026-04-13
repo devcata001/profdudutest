@@ -156,17 +156,21 @@
                 <div class="category-page py-5">
                     <div class="text-center mb-5">
                         <h1 class="display-5 fw-bold text-white mb-3">
-                            <i class="fas fa-book-reader me-3"></i>Choose Your Path
+                            <i class="fas fa-book-reader me-3"></i>Select Your Subjects
                         </h1>
-                        <p class="lead text-white opacity-75">Select your quiz category. Remember, you can only attempt
-                            once!</p>
+                        <p class="lead text-white opacity-75">Choose your department, then pick exactly 4 subjects
+                            total.
+                            English is compulsory for everyone, and Physics is also compulsory for Science.</p>
 
                         <div class="d-flex justify-content-center gap-3 flex-wrap mt-4">
                             <div class="info-badge">
                                 <i class="fas fa-clock me-2"></i>1 Hour 30 Minutes
                             </div>
                             <div class="info-badge warning">
-                                <i class="fas fa-exclamation-triangle me-2"></i>One Attempt Only
+                                <i class="fas fa-exclamation-triangle me-2"></i>4 Subjects Only
+                            </div>
+                            <div class="info-badge warning">
+                                <i class="fas fa-language me-2"></i>English Compulsory
                             </div>
                         </div>
                     </div>
@@ -196,8 +200,16 @@
                                                 class="fas fa-flask me-1"></i>Chemistry</span>
                                     </div>
 
+                                    <p class="subject-rule text-muted mb-2">
+                                        English and Physics are compulsory. Choose 2 more subjects.
+                                    </p>
+
+                                    <div id="scienceSubjectSelection" class="subject-selection mb-4"></div>
+
+                                    <div id="scienceSelectionStatus" class="selection-status mb-4"></div>
+
                                     <div class="question-count mb-4">
-                                        <span class="count-number">150</span>
+                                        <span class="count-number">120</span>
                                         <span class="count-text">Questions</span>
                                     </div>
 
@@ -235,8 +247,16 @@
                                         <span class="subject-tag arts-tag"><i class="fas fa-cross me-1"></i>CRS</span>
                                     </div>
 
+                                    <p class="subject-rule text-muted mb-2">
+                                        English is compulsory. Choose 3 more subjects.
+                                    </p>
+
+                                    <div id="artsSubjectSelection" class="subject-selection mb-4"></div>
+
+                                    <div id="artsSelectionStatus" class="selection-status mb-4"></div>
+
                                     <div class="question-count mb-4">
-                                        <span class="count-number">140</span>
+                                        <span class="count-number">120</span>
                                         <span class="count-text">Questions</span>
                                     </div>
 
@@ -275,8 +295,16 @@
                                                 class="fas fa-file-invoice-dollar me-1"></i>Accounting</span>
                                     </div>
 
+                                    <p class="subject-rule text-muted mb-2">
+                                        English is compulsory. Choose 3 more subjects.
+                                    </p>
+
+                                    <div id="commercialSubjectSelection" class="subject-selection mb-4"></div>
+
+                                    <div id="commercialSelectionStatus" class="selection-status mb-4"></div>
+
                                     <div class="question-count mb-4">
-                                        <span class="count-number">150</span>
+                                        <span class="count-number">120</span>
                                         <span class="count-text">Questions</span>
                                     </div>
 
@@ -473,6 +501,10 @@
                 </div>
                 <div class="modal-body">
                     <p class="mb-3">You are about to start the <strong id="startCategoryName"></strong> quiz.</p>
+                    <div class="mb-3">
+                        <div class="fw-semibold mb-2">Selected subjects</div>
+                        <div id="selectedSubjectsList" class="selected-subjects-list"></div>
+                    </div>
                     <div class="alert alert-warning mb-0">
                         <i class="fas fa-exclamation-triangle me-2"></i>
                         <strong>Important:</strong> You only get <strong>one attempt</strong>. The 1 hour 30 minutes

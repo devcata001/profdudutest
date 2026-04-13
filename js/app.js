@@ -11,10 +11,12 @@ let currentCategory = null;
 let pendingCategory = null;
 let currentQuestionIndex = 0;
 let allQuestions = [];
+let currentSelectedSubjects = [];
 let userAnswers = {};
 let timerInterval = null;
 let timeRemaining = 90 * 60; // 1 hour 30 minutes in seconds
 let quizStartTime = null;
+let subjectSelections = {};
 
 // ============================================
 // API HELPER FUNCTIONS
@@ -53,6 +55,181 @@ async function apiCall(endpoint, method = 'GET', data = null) {
         console.error('API Error:', error);
         throw error;
     }
+}
+
+function getSelectionStorageKey() {
+    return currentUser ? `profdudu_subject_selection_${currentUser.id}` : 'profdudu_subject_selection';
+}
+
+function loadSubjectSelections() {
+    if (!currentUser) return;
+
+    const key = getSelectionStorageKey();
+    let saved = null;
+
+    try {
+        saved = JSON.parse(sessionStorage.getItem(key) || 'null');
+    } catch (error) {
+        console.warn('Invalid subject selection data:', error);
+    }
+
+    subjectSelections = saved && typeof saved === 'object' ? saved : {};
+
+    ['science', 'arts', 'commercial'].forEach(category => {
+        if (!Array.isArray(subjectSelections[category]) || !subjectSelections[category].length) {
+            subjectSelections[category] = getDefaultSubjectSelection(category);
+        } else {
+            const available = getAvailableSubjects(category);
+            const required = getRequiredSubjects(category);
+            const unique = [...new Set(subjectSelections[category])].filter(subject => available.includes(subject));
+            required.forEach(subject => {
+                if (available.includes(subject) && !unique.includes(subject)) unique.unshift(subject);
+            });
+            subjectSelections[category] = unique.slice(0, MAX_MOCK_SUBJECTS);
+        }
+    });
+
+    saveSubjectSelections();
+}
+
+function saveSubjectSelections() {
+    if (!currentUser) return;
+    sessionStorage.setItem(getSelectionStorageKey(), JSON.stringify(subjectSelections));
+}
+
+function getSelectedSubjects(category) {
+    if (!Array.isArray(subjectSelections[category]) || !subjectSelections[category].length) {
+        subjectSelections[category] = getDefaultSubjectSelection(category);
+    }
+    return [...subjectSelections[category]];
+}
+
+function setSelectedSubjects(category, subjects) {
+    const available = getAvailableSubjects(category);
+    const required = getRequiredSubjects(category).filter(subject => available.includes(subject));
+    const sanitized = [...new Set(subjects)].filter(subject => available.includes(subject));
+
+    required.forEach(subject => {
+        if (!sanitized.includes(subject)) sanitized.unshift(subject);
+    });
+
+    subjectSelections[category] = sanitized.slice(0, MAX_MOCK_SUBJECTS);
+    saveSubjectSelections();
+}
+
+function isValidSelection(category, subjects) {
+    const required = getRequiredSubjects(category);
+    return Array.isArray(subjects)
+        && subjects.length === MAX_MOCK_SUBJECTS
+        && required.every(subject => subjects.includes(subject));
+}
+
+function renderSubjectSelectionCards() {
+    if (typeof questionsData === 'undefined') return;
+
+    const config = {
+        science: {
+            id: 'scienceSubjectSelection',
+            statusId: 'scienceSelectionStatus',
+            note: 'Choose 2 more subjects.',
+        },
+        arts: {
+            id: 'artsSubjectSelection',
+            statusId: 'artsSelectionStatus',
+            note: 'Choose 3 more subjects.',
+        },
+        commercial: {
+            id: 'commercialSubjectSelection',
+            statusId: 'commercialSelectionStatus',
+            note: 'Choose 3 more subjects.',
+        }
+    };
+
+    Object.entries(config).forEach(([category, details]) => {
+        const container = document.getElementById(details.id);
+        const status = document.getElementById(details.statusId);
+        if (!container || !status || !questionsData[category]) return;
+
+        const subjects = questionsData[category];
+        const required = getRequiredSubjects(category);
+        const selected = getSelectedSubjects(category);
+
+        container.innerHTML = `
+            <div class="subject-selection-header">
+                <span class="subject-selection-title">Pick 4 subjects total</span>
+                <span class="subject-selection-count">${selected.length}/${MAX_MOCK_SUBJECTS} selected</span>
+            </div>
+            <div class="subject-selection-grid">
+                ${Object.entries(subjects).map(([subjectKey, subject]) => {
+            const checked = selected.includes(subjectKey);
+            const compulsory = required.includes(subjectKey);
+            return `
+                        <label class="subject-option ${checked ? 'selected' : ''} ${compulsory ? 'compulsory' : ''}">
+                            <input type="checkbox"
+                                   data-category="${category}"
+                                   data-subject="${subjectKey}"
+                                   ${checked ? 'checked' : ''}
+                                   ${compulsory ? 'disabled' : ''}>
+                            <span class="subject-option-info">
+                                <span class="subject-option-name">${subject.name}</span>
+                                <span class="subject-option-meta">${compulsory ? 'Compulsory' : 'Optional'}</span>
+                            </span>
+                            <span class="subject-option-check"><i class="fas fa-check"></i></span>
+                        </label>
+                    `;
+        }).join('')}
+            </div>
+        `;
+
+        status.innerHTML = `
+            <div class="selection-chip ${isValidSelection(category, selected) ? 'ready' : 'pending'}">
+                <i class="fas ${isValidSelection(category, selected) ? 'fa-check-circle' : 'fa-info-circle'} me-2"></i>
+                ${isValidSelection(category, selected)
+                ? 'Ready to start'
+                : `${details.note} Compulsory: ${required.map(s => subjects[s]?.name || s).join(', ')}`}
+            </div>
+        `;
+
+        container.querySelectorAll('input[type="checkbox"]').forEach(input => {
+            input.addEventListener('change', (event) => {
+                const cat = event.target.dataset.category;
+                const subjectKey = event.target.dataset.subject;
+                const chosen = getSelectedSubjects(cat);
+
+                if (event.target.checked) {
+                    if (chosen.length >= MAX_MOCK_SUBJECTS) {
+                        event.target.checked = false;
+                        showToast('Limit reached', `Select only ${MAX_MOCK_SUBJECTS} subjects.`, 'warning');
+                        return;
+                    }
+                    if (!chosen.includes(subjectKey)) chosen.push(subjectKey);
+                } else {
+                    const requiredSubjects = getRequiredSubjects(cat);
+                    if (requiredSubjects.includes(subjectKey)) {
+                        event.target.checked = true;
+                        return;
+                    }
+                    const next = chosen.filter(subject => subject !== subjectKey);
+                    setSelectedSubjects(cat, next);
+                }
+
+                if (event.target.checked) setSelectedSubjects(cat, chosen);
+                renderSubjectSelectionCards();
+                updateCardCounts();
+            });
+        });
+    });
+}
+
+function updateSelectedSubjectsSummary(category) {
+    const list = document.getElementById('selectedSubjectsList');
+    if (!list || !questionsData[category]) return;
+
+    const selected = getSelectedSubjects(category);
+    list.innerHTML = selected.map(subjectKey => {
+        const subject = questionsData[category][subjectKey];
+        return `<span class="selected-subject-pill">${subject ? subject.name : subjectKey}</span>`;
+    }).join('');
 }
 
 // ============================================
@@ -164,6 +341,8 @@ async function login() {
 
 function logout() {
     currentUser = null;
+    currentSelectedSubjects = [];
+    subjectSelections = {};
     sessionStorage.removeItem('profdudu_currentUser');
 
     // Stop timer if running
@@ -204,6 +383,10 @@ async function showCategorySection() {
     }
     document.getElementById('userDisplay').classList.remove('d-none');
     document.getElementById('logoutBtn').classList.remove('d-none');
+
+    loadSubjectSelections();
+    renderSubjectSelectionCards();
+    updateCardCounts();
 
     // Check if user has already attempted quiz
     try {
@@ -252,10 +435,18 @@ async function showCategorySection() {
 // Called by category buttons — shows confirmation modal
 function confirmStartQuiz(category) {
     if (category) {
+        const selected = getSelectedSubjects(category);
+        if (!isValidSelection(category, selected)) {
+            showToast('Selection required', `Pick exactly ${MAX_MOCK_SUBJECTS} subjects before starting.`, 'warning');
+            return;
+        }
+
         // Called from the card button: store category and show modal
         pendingCategory = category;
         const names = { science: 'Science', arts: 'Arts', commercial: 'Commercial' };
         document.getElementById('startCategoryName').textContent = names[category] || category;
+        updateSelectedSubjectsSummary(category);
+
         const modal = new bootstrap.Modal(document.getElementById('confirmStartModal'));
         modal.show();
     } else {
@@ -268,6 +459,7 @@ function confirmStartQuiz(category) {
 
 async function startQuiz(category) {
     currentCategory = category;
+    currentSelectedSubjects = getSelectedSubjects(category);
     currentQuestionIndex = 0;
     userAnswers = {};
     timeRemaining = 90 * 60; // Reset timer to 1 hour 30 minutes
@@ -281,7 +473,7 @@ async function startQuiz(category) {
     }
 
     // Get all questions for this category
-    allQuestions = getAllQuestions(category);
+    allQuestions = getAllQuestions(category, currentSelectedSubjects);
 
     // Show quiz section
     document.getElementById('categorySection').classList.add('d-none');
@@ -536,9 +728,10 @@ function calculateResults() {
     const subjectTotals = {};
 
     // Initialize subject scores
-    for (const subjectKey in questionsData[currentCategory]) {
+    const subjectsInUse = currentSelectedSubjects.length ? currentSelectedSubjects : Object.keys(questionsData[currentCategory] || {});
+    for (const subjectKey of subjectsInUse) {
         subjectScores[subjectKey] = 0;
-        subjectTotals[subjectKey] = questionsData[currentCategory][subjectKey].questions.length;
+        subjectTotals[subjectKey] = Math.min(QUESTIONS_PER_SUBJECT, questionsData[currentCategory][subjectKey].questions.length);
     }
 
     // Helper: normalize text for structural comparison
@@ -628,7 +821,7 @@ function showResults(results) {
     const breakdown = document.getElementById('subjectBreakdown');
     breakdown.innerHTML = '';
 
-    const subjectNames = getSubjectNames(currentCategory);
+    const subjectNames = getSubjectNames(currentCategory, currentSelectedSubjects);
 
     for (const subject in results.subjectScores) {
         const score = results.subjectScores[subject];
@@ -665,17 +858,7 @@ function updateCardCounts() {
     const categories = ['science', 'arts', 'commercial'];
 
     categories.forEach(cat => {
-        let totalQuestions = 0;
-
-        // Calculate total questions in this category
-        if (questionsData[cat]) {
-            for (const subject in questionsData[cat]) {
-                const subjectObj = questionsData[cat][subject];
-                if (subjectObj && subjectObj.questions && Array.isArray(subjectObj.questions)) {
-                    totalQuestions += subjectObj.questions.length;
-                }
-            }
-        }
+        const totalQuestions = MAX_MOCK_SUBJECTS * QUESTIONS_PER_SUBJECT;
 
         // Update the card count display
         const card = document.getElementById(cat + 'Card');
@@ -695,6 +878,7 @@ function updateCardCounts() {
 document.addEventListener('DOMContentLoaded', function () {
     // Update question counts on cards
     updateCardCounts();
+    renderSubjectSelectionCards();
 
     // If device is locked, still show the login form so a reset user can log in
     // The actual lock enforcement happens in showCategorySection after login
@@ -709,6 +893,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const savedUser = sessionStorage.getItem('profdudu_currentUser');
     if (savedUser) {
         currentUser = JSON.parse(savedUser);
+        loadSubjectSelections();
         // If device is locked, check server for a reset before proceeding
         if (deviceLocked) {
             apiCall(`/api/users/${currentUser.id}`).then(freshUser => {

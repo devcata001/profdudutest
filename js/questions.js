@@ -281,26 +281,36 @@ const questionsData = {
         crs: {
             name: "CRS",
             questions: [
-                { id: 1, question: "When Jesus asked his disciples 'Who do men say that I am?', Peter said he was:", options: ["John the Baptist", "One of the prophets", "Jesus", "Elijah"], answer: "B" },
-                { id: 2, question: "Paul instructed that any Christian that is idle and lazy should be:", options: ["Ostracised", "Disqualified from being a member", "Given a job", "Stoned to death"], answer: "A" },
-                { id: 3, question: "Obadiah, who was in charge of Ahab's household:", options: ["Hid a hundred prophets from Jezebel's wrath", "Was in charge of the worship of Baal", "Was eventually killed by Jezebel", "Confronted Ahab when he slew prophets"], answer: "D" },
-                { id: 4, question: "In Paul's 2nd epistle to the Thessalonians, what did he deem fit to thank God on their behalf?", options: ["Their salvation, growing faith, brotherly love and effective prayer life", "Their salvation", "Their salvation and growing faith", "Their salvation, growing faith and brotherly love"], answer: "A" },
-                { id: 5, question: "David submitted to the will of God when God killed the child he had with Bathsheba by:", options: ["Weeping profusely", "Having another child", "Ending his fast", "Thanking God"], answer: "D" },
-                { id: 6, question: "'But my God shall supply all your need according to his riches in glory by Christ Jesus.' This was made by Paul to the:", options: ["Colossians", "Philippians", "Ephesians", "Galatians"], answer: "C" },
-                { id: 7, question: "Paul and Silas were sent on a mission by the:", options: ["Disciples", "Church in Antioch", "Church in Lystra", "Church in Jerusalem"], answer: "A" },
-                { id: 8, question: "In Paul's letter to Philemon, he stated that forgiveness should be:", options: ["Incessant", "Rewarded", "Willingly given", "Compulsory"], answer: "B" },
-                { id: 9, question: "Before the death of Jesus, he promised to give us another:", options: ["Disciple", "Comforter", "Saviour", "Christ"], answer: "B" },
-                { id: 10, question: "According to Romans, those that commit the act of homosexuality are worthy of:", options: ["Childlessness", "Death", "Eternal condemnation", "Being ostracised from the body of Christ"], answer: "B" },
-                { id: 11, question: "The first martyr of Christ died:", options: ["On the cross", "By drowning", "By severing of the head", "Through stoning"], answer: "A" },
-                { id: 12, question: "The transfiguration took place on a high mountain in the presence of the following, EXCLUDING:", options: ["James", "Peter", "Andrew", "John"], answer: "B" },
-                { id: 13, question: "When Herod sought Jesus to kill him, his father hid him in:", options: ["Haran", "Egypt", "Canaan", "Lebanon"], answer: "D" },
-                { id: 14, question: "Who was King Ahasuerus' chamberlain who kept his concubines?", options: ["Shaashgaz", "Regain", "Hatach", "Hege"], answer: "B" },
-                { id: 15, question: "Paul told believers that the coming of the Lord will be accompanied by:", options: ["Thunder and lightning", "An earthquake", "A shout", "A host of angels"], answer: "C" },
-                { id: 16, question: "'Seeing that you reject it, behold we turn to the Gentiles.' The circumstance surrounding this statement by Paul and Barnabas was:", options: ["The Sadducees antagonised the teaching of resurrection", "The Jews contradicted the gospel, trying to mislead others", "The Jews disbelieved the gospel", "The Jews rejected the Holy Spirit"], answer: "A" },
-                { id: 17, question: "According to James, effective prayer is that which is offered:", options: ["According to the schedule", "In faith", "Loudly", "In the temple"], answer: "C" },
-                { id: 18, question: "The consequence of Hiel's building of Jericho was that he:", options: ["Was made a commander in Ahab's army", "Was highly respected by his tribe", "Lost 2 of his sons", "Was killed by Ahab"], answer: "D" },
-                { id: 19, question: "Jesus coming to the world in the form of a human showed his:", options: ["Impartiality", "Humility", "Obedience", "Responsibility"], answer: "A" },
-                { id: 20, question: "In the Sermon on the Mount, Jesus said those who make peace should rejoice because:", options: ["The kingdom of God is theirs", "They will see God", "They will inherit the earth", "They will be called God's children"], answer: "D" }
+                { id: 1, question: "Amaziah opposed Amos because", options: ["Amos was false", "Amos spoke against Bethel sanctuary", "Amos was from Judah", "Amos insulted the king"], answer: "B" },
+                { id: 2, question: "The sin of Jeroboam was that he", options: ["Married foreign wives", "Built golden calves at Bethel and Dan", "Killed prophets", "Refused sacrifice"], answer: "B" },
+                { id: 3, question: "God rejected Saul as king because he", options: ["Was weak", "Disobeyed divine instruction", "Feared enemies", "Was not anointed"], answer: "B" },
+                { id: 4, question: "The message “Let justice roll down like waters” is associated with", options: ["Hosea", "Amos", "Isaiah", "Micah"], answer: "B" },
+                { id: 5, question: "During the call of Jeremiah, God told him he was appointed over", options: ["Israel only", "Judah only", "Nations and kingdoms", "Priests and kings"], answer: "C" },
+                { id: 6, question: "The “suffering servant” theme is found mainly in", options: ["Jeremiah", "Isaiah", "Amos", "Ezekiel"], answer: "B" },
+                { id: 7, question: "Ezekiel’s symbolic act of lying on his side represented", options: ["Prayer", "Judgment duration on Israel and Judah", "Rest", "Obedience"], answer: "B" },
+                { id: 8, question: "The wife of Hosea symbolized", options: ["Faithfulness", "Israel’s unfaithfulness to God", "Prosperity", "Judgment"], answer: "B" },
+                { id: 9, question: "At Mount Carmel, Elijah proved God’s power by", options: ["Raising the dead", "Calling down fire from heaven", "Healing leprosy", "Dividing Jordan"], answer: "B" },
+                { id: 10, question: "The covenant at Sinai required Israel to", options: ["Build temple", "Obey God’s laws", "Fight enemies", "Give offerings"], answer: "B" },
+                { id: 11, question: "The major issue in the Jerusalem Council was about", options: ["Prayer", "Circumcision of Gentiles", "Leadership", "Tithing"], answer: "B" },
+                { id: 12, question: "Stephen was accused of speaking against", options: ["The king", "The temple and the Law", "Romans", "Apostles"], answer: "B" },
+                { id: 13, question: "Paul described the law as", options: ["Useless", "Holy but unable to justify", "Evil", "Perfect salvation"], answer: "B" },
+                { id: 14, question: "The parable of the talents teaches", options: ["Prayer", "Accountability and stewardship", "Forgiveness", "Love"], answer: "B" },
+                { id: 15, question: "Jesus’ teaching on divorce emphasized", options: ["Law of Moses", "Hardness of heart", "Culture", "Tradition"], answer: "B" },
+                { id: 16, question: "The rich man and Lazarus parable teaches", options: ["Wealth is evil", "Reversal of fortune after death", "Giving is compulsory", "Poverty is holy"], answer: "B" },
+                { id: 17, question: "The purpose of the law according to Paul was to", options: ["Save man", "Reveal sin", "Replace grace", "Destroy man"], answer: "B" },
+                { id: 18, question: "Ananias and Sapphira were punished for", options: ["Theft", "Lying to the Holy Spirit", "Murder", "Disobedience"], answer: "B" },
+                { id: 19, question: "The new covenant differs from the old in that it is written on", options: ["Stone", "Tablets", "Hearts of men", "Books"], answer: "C" },
+                { id: 20, question: "Jesus wept over Jerusalem because", options: ["It was poor", "It rejected God’s visitation", "It lacked leaders", "It was sinful"], answer: "B" },
+                { id: 21, question: "The sign of Jonah refers to", options: ["Miracle", "Resurrection of Jesus", "Judgment", "Preaching"], answer: "B" },
+                { id: 22, question: "The early church shared goods to show", options: ["Wealth", "Unity and love", "Power", "Control"], answer: "B" },
+                { id: 23, question: "Peter’s vision in Joppa taught that", options: ["Food laws remain", "Gentiles are accepted by God", "Jews are superior", "Animals are holy"], answer: "B" },
+                { id: 24, question: "The greatest commandment according to Jesus includes", options: ["Sacrifice", "Love for God and neighbor", "Prayer", "Law"], answer: "B" },
+                { id: 25, question: "The tearing of the temple veil signifies", options: ["Destruction", "Access to God through Christ", "Judgment", "End of worship"], answer: "B" },
+                { id: 26, question: "The prodigal son’s elder brother represents", options: ["Sinners", "Pharisees/self-righteous people", "Gentiles", "Apostles"], answer: "B" },
+                { id: 27, question: "Jesus’ triumphal entry fulfilled prophecy from", options: ["Isaiah", "Zechariah", "Malachi", "Amos"], answer: "B" },
+                { id: 28, question: "The baptism of Jesus signifies", options: ["Cleansing", "Identification and approval by God", "Power", "Authority"], answer: "B" },
+                { id: 29, question: "The main theme of Ecclesiastes is", options: ["Joy", "Vanity of life without God", "Wisdom", "Judgment"], answer: "B" },
+                { id: 30, question: "The fall of man resulted in", options: ["Death and separation from God", "Poverty", "Weakness", "Fear"], answer: "A" }
             ]
         }
     },
@@ -426,12 +436,51 @@ const questionsData = {
 // HELPER FUNCTIONS
 // ============================================================
 
-function getAllQuestions(category) {
+const MAX_MOCK_SUBJECTS = 4;
+const QUESTIONS_PER_SUBJECT = 30;
+
+const REQUIRED_SUBJECTS = {
+    science: ['english', 'physics'],
+    arts: ['english'],
+    commercial: ['english']
+};
+
+function getAvailableSubjects(category) {
+    return Object.keys(questionsData[category] || {});
+}
+
+function getRequiredSubjects(category) {
+    return REQUIRED_SUBJECTS[category] || ['english'];
+}
+
+function getDefaultSubjectSelection(category) {
+    const available = getAvailableSubjects(category);
+    const required = getRequiredSubjects(category).filter(subject => available.includes(subject));
+    const optional = available.filter(subject => !required.includes(subject));
+    const needed = Math.max(0, MAX_MOCK_SUBJECTS - required.length);
+    return [...required, ...optional.slice(0, needed)];
+}
+
+function shuffleQuestions(items) {
+    const arr = [...items];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+function getAllQuestions(category, selectedSubjects = null) {
     const subjects = questionsData[category];
     let allQuestions = [];
-    for (const subjectKey in subjects) {
+    const subjectKeys = Array.isArray(selectedSubjects) && selectedSubjects.length
+        ? selectedSubjects
+        : Object.keys(subjects);
+
+    for (const subjectKey of subjectKeys) {
         const subject = subjects[subjectKey];
-        subject.questions.forEach((q) => {
+        if (!subject) continue;
+        subject.questions.slice(0, QUESTIONS_PER_SUBJECT).forEach((q) => {
             allQuestions.push({
                 ...q,
                 subject: subjectKey,
@@ -440,23 +489,48 @@ function getAllQuestions(category) {
             });
         });
     }
-    return allQuestions;
+    return shuffleQuestions(allQuestions);
 }
 
-function getSubjectNames(category) {
+function getSubjectNames(category, selectedSubjects = null) {
     const subjects = questionsData[category];
     const names = {};
-    for (const subjectKey in subjects) {
+    const subjectKeys = Array.isArray(selectedSubjects) && selectedSubjects.length
+        ? selectedSubjects
+        : Object.keys(subjects);
+
+    for (const subjectKey of subjectKeys) {
+        if (!subjects[subjectKey]) continue;
         names[subjectKey] = subjects[subjectKey].name;
     }
     return names;
 }
 
-function getTotalQuestions(category) {
+function getTotalQuestions(category, selectedSubjects = null) {
     const subjects = questionsData[category];
     let total = 0;
-    for (const subjectKey in subjects) {
-        total += subjects[subjectKey].questions.length;
+    const subjectKeys = Array.isArray(selectedSubjects) && selectedSubjects.length
+        ? selectedSubjects
+        : Object.keys(subjects);
+
+    for (const subjectKey of subjectKeys) {
+        if (!subjects[subjectKey]) continue;
+        total += Math.min(QUESTIONS_PER_SUBJECT, subjects[subjectKey].questions.length);
     }
     return total;
+}
+
+function getSubjectSelectionSummary(category, selectedSubjects = null) {
+    const available = getAvailableSubjects(category);
+    const required = getRequiredSubjects(category).filter(subject => available.includes(subject));
+    const selected = Array.isArray(selectedSubjects) && selectedSubjects.length
+        ? selectedSubjects.filter(subject => available.includes(subject))
+        : getDefaultSubjectSelection(category);
+
+    return {
+        category,
+        required,
+        selected,
+        optional: available.filter(subject => !required.includes(subject))
+    };
 }
