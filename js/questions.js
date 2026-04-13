@@ -77,6 +77,42 @@ const sharedEnglish = {
     ]
 };
 
+const sharedEconomics = {
+    name: "Economics",
+    questions: [
+        { id: 1, question: "The central problem of economics is mainly concerned with:", options: ["Inflation", "Scarcity", "Production", "Distribution"], answer: "B" },
+        { id: 2, question: "A good is said to be scarce when it:", options: ["Is expensive", "Has alternative uses", "Is limited relative to demand", "Is produced in small quantity"], answer: "C" },
+        { id: 3, question: "Which of the following best explains opportunity cost?", options: ["Total money spent", "Alternative forgone", "Fixed cost", "Cost of labour"], answer: "B" },
+        { id: 4, question: "Which of the following is NOT a characteristic of human wants?", options: ["Unlimited", "Competitive", "Satiable", "Recurrent"], answer: "C" },
+        { id: 5, question: "The demand curve is usually:", options: ["Upward sloping", "Downward sloping", "Vertical", "Horizontal"], answer: "B" },
+        { id: 6, question: "A change in quantity demanded is caused by:", options: ["Income", "Taste", "Price of the good", "Population"], answer: "C" },
+        { id: 7, question: "If the price of a complement rises, demand for the related good will:", options: ["Increase", "Decrease", "Remain constant", "Fluctuate"], answer: "B" },
+        { id: 8, question: "The supply curve slopes upward because:", options: ["Producers want profit", "Higher prices encourage more supply", "Demand increases", "Costs decrease"], answer: "B" },
+        { id: 9, question: "Equilibrium occurs when:", options: ["Demand exceeds supply", "Supply exceeds demand", "Demand equals supply", "Price is fixed"], answer: "C" },
+        { id: 10, question: "Which of the following will cause a shift in supply?", options: ["Change in price", "Change in technology", "Change in quantity demanded", "Change in demand"], answer: "B" },
+        { id: 11, question: "Total cost is the sum of:", options: ["Fixed cost only", "Variable cost only", "Fixed and variable costs", "Average and marginal costs"], answer: "C" },
+        { id: 12, question: "Marginal cost is the:", options: ["Cost of last unit produced", "Total cost", "Fixed cost", "Average cost"], answer: "A" },
+        { id: 13, question: "Which of the following is a feature of monopoly?", options: ["Many sellers", "Perfect knowledge", "Single seller", "Free entry"], answer: "C" },
+        { id: 14, question: "In perfect competition, firms are:", options: ["Price makers", "Price takers", "Government controlled", "Profit controllers"], answer: "B" },
+        { id: 15, question: "Utility is best described as:", options: ["Cost of goods", "Satisfaction derived", "Price level", "Demand level"], answer: "B" },
+        { id: 16, question: "Money as a unit of account means it:", options: ["Stores value", "Measures value", "Exchanges goods", "Controls prices"], answer: "B" },
+        { id: 17, question: "Which of the following is NOT a function of money?", options: ["Medium of exchange", "Store of value", "Factor of production", "Unit of account"], answer: "C" },
+        { id: 18, question: "Credit creation is mainly done by:", options: ["Central Bank", "Commercial Banks", "Government", "Firms"], answer: "B" },
+        { id: 19, question: "Open market operations are used by the Central Bank to:", options: ["Control population", "Control money supply", "Increase wages", "Produce goods"], answer: "B" },
+        { id: 20, question: "Inflation leads to:", options: ["Increase in purchasing power", "Decrease in purchasing power", "Stable prices", "Increased savings"], answer: "B" },
+        { id: 21, question: "Structural unemployment is caused by:", options: ["Seasonal changes", "Economic recession", "Changes in technology", "Laziness"], answer: "C" },
+        { id: 22, question: "GDP at market price includes:", options: ["Only exports", "Only imports", "Total value of goods and services", "Government revenue only"], answer: "C" },
+        { id: 23, question: "Which of the following is a direct tax?", options: ["VAT", "Customs duty", "Income tax", "Excise duty"], answer: "C" },
+        { id: 24, question: "A regressive tax is one where:", options: ["Tax increases with income", "Tax decreases with income", "Same rate for all", "Only rich pay"], answer: "B" },
+        { id: 25, question: "Balance of payments records:", options: ["Imports only", "Exports only", "All international transactions", "Government spending"], answer: "C" },
+        { id: 26, question: "Devaluation of currency will:", options: ["Increase imports", "Reduce exports", "Encourage exports", "Stabilize prices"], answer: "C" },
+        { id: 27, question: "Which of the following is a merit good?", options: ["Cigarettes", "Alcohol", "Education", "Gambling"], answer: "C" },
+        { id: 28, question: "Economic development involves:", options: ["Increase in population", "Increase in output only", "Improvement in living standards", "Increase in imports"], answer: "C" },
+        { id: 29, question: "The law of diminishing returns applies in the:", options: ["Short run", "Long run", "Market", "Economy"], answer: "A" },
+        { id: 30, question: "Which of the following best explains elasticity of demand?", options: ["Change in supply", "Responsiveness of demand to price change", "Cost of production", "Market equilibrium"], answer: "B" }
+    ]
+};
+
 // ============================================================
 // MAIN QUESTIONS DATA OBJECT
 // ============================================================
@@ -205,6 +241,7 @@ const questionsData = {
     arts: {
         maths: sharedMaths,
         english: sharedEnglish,
+        economics: sharedEconomics,
 
         literature: {
             name: "Literature",
@@ -321,42 +358,7 @@ const questionsData = {
     commercial: {
         maths: sharedMaths,
         english: sharedEnglish,
-
-        economics: {
-            name: "Economics",
-            questions: [
-                { id: 1, question: "The central problem of economics is mainly concerned with:", options: ["Inflation", "Scarcity", "Production", "Distribution"], answer: "B" },
-                { id: 2, question: "A good is said to be scarce when it:", options: ["Is expensive", "Has alternative uses", "Is limited relative to demand", "Is produced in small quantity"], answer: "C" },
-                { id: 3, question: "Which of the following best explains opportunity cost?", options: ["Total money spent", "Alternative forgone", "Fixed cost", "Cost of labour"], answer: "B" },
-                { id: 4, question: "Which of the following is NOT a characteristic of human wants?", options: ["Unlimited", "Competitive", "Satiable", "Recurrent"], answer: "C" },
-                { id: 5, question: "The demand curve is usually:", options: ["Upward sloping", "Downward sloping", "Vertical", "Horizontal"], answer: "B" },
-                { id: 6, question: "A change in quantity demanded is caused by:", options: ["Income", "Taste", "Price of the good", "Population"], answer: "C" },
-                { id: 7, question: "If the price of a complement rises, demand for the related good will:", options: ["Increase", "Decrease", "Remain constant", "Fluctuate"], answer: "B" },
-                { id: 8, question: "The supply curve slopes upward because:", options: ["Producers want profit", "Higher prices encourage more supply", "Demand increases", "Costs decrease"], answer: "B" },
-                { id: 9, question: "Equilibrium occurs when:", options: ["Demand exceeds supply", "Supply exceeds demand", "Demand equals supply", "Price is fixed"], answer: "C" },
-                { id: 10, question: "Which of the following will cause a shift in supply?", options: ["Change in price", "Change in technology", "Change in quantity demanded", "Change in demand"], answer: "B" },
-                { id: 11, question: "Total cost is the sum of:", options: ["Fixed cost only", "Variable cost only", "Fixed and variable costs", "Average and marginal costs"], answer: "C" },
-                { id: 12, question: "Marginal cost is the:", options: ["Cost of last unit produced", "Total cost", "Fixed cost", "Average cost"], answer: "A" },
-                { id: 13, question: "Which of the following is a feature of monopoly?", options: ["Many sellers", "Perfect knowledge", "Single seller", "Free entry"], answer: "C" },
-                { id: 14, question: "In perfect competition, firms are:", options: ["Price makers", "Price takers", "Government controlled", "Profit controllers"], answer: "B" },
-                { id: 15, question: "Utility is best described as:", options: ["Cost of goods", "Satisfaction derived", "Price level", "Demand level"], answer: "B" },
-                { id: 16, question: "Money as a unit of account means it:", options: ["Stores value", "Measures value", "Exchanges goods", "Controls prices"], answer: "B" },
-                { id: 17, question: "Which of the following is NOT a function of money?", options: ["Medium of exchange", "Store of value", "Factor of production", "Unit of account"], answer: "C" },
-                { id: 18, question: "Credit creation is mainly done by:", options: ["Central Bank", "Commercial Banks", "Government", "Firms"], answer: "B" },
-                { id: 19, question: "Open market operations are used by the Central Bank to:", options: ["Control population", "Control money supply", "Increase wages", "Produce goods"], answer: "B" },
-                { id: 20, question: "Inflation leads to:", options: ["Increase in purchasing power", "Decrease in purchasing power", "Stable prices", "Increased savings"], answer: "B" },
-                { id: 21, question: "Structural unemployment is caused by:", options: ["Seasonal changes", "Economic recession", "Changes in technology", "Laziness"], answer: "C" },
-                { id: 22, question: "GDP at market price includes:", options: ["Only exports", "Only imports", "Total value of goods and services", "Government revenue only"], answer: "C" },
-                { id: 23, question: "Which of the following is a direct tax?", options: ["VAT", "Customs duty", "Income tax", "Excise duty"], answer: "C" },
-                { id: 24, question: "A regressive tax is one where:", options: ["Tax increases with income", "Tax decreases with income", "Same rate for all", "Only rich pay"], answer: "B" },
-                { id: 25, question: "Balance of payments records:", options: ["Imports only", "Exports only", "All international transactions", "Government spending"], answer: "C" },
-                { id: 26, question: "Devaluation of currency will:", options: ["Increase imports", "Reduce exports", "Encourage exports", "Stabilize prices"], answer: "C" },
-                { id: 27, question: "Which of the following is a merit good?", options: ["Cigarettes", "Alcohol", "Education", "Gambling"], answer: "C" },
-                { id: 28, question: "Economic development involves:", options: ["Increase in population", "Increase in output only", "Improvement in living standards", "Increase in imports"], answer: "C" },
-                { id: 29, question: "The law of diminishing returns applies in the:", options: ["Short run", "Long run", "Market", "Economy"], answer: "A" },
-                { id: 30, question: "Which of the following best explains elasticity of demand?", options: ["Change in supply", "Responsiveness of demand to price change", "Cost of production", "Market equilibrium"], answer: "B" }
-            ]
-        },
+        economics: sharedEconomics,
 
         commerce: {
             name: "Commerce",

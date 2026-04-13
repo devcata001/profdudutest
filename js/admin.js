@@ -197,7 +197,7 @@ function filterResults() {
 // ── Category Results ──────────────────────────────────────────────────────────
 const CAT_COLS = {
     science: ['maths', 'english', 'physics', 'biology', 'chemistry'],
-    arts: ['maths', 'english', 'literature', 'government', 'crs'],
+    arts: ['maths', 'english', 'literature', 'government', 'economics', 'crs'],
     commercial: ['maths', 'english', 'economics', 'commerce', 'accounting']
 };
 
@@ -217,7 +217,11 @@ async function loadCategoryResults(cat) {
             <td class="text-muted">${i + 1}</td>
             <td>${r.userName}</td>
             <td class="text-muted d-none d-md-table-cell" style="font-size:.8rem">${r.userEmail}</td>
-            ${cols.map(s => `<td class="${HIDE_ON_LG.includes(s) ? 'd-none d-lg-table-cell' : ''}">${r.subjectScores?.[s] ?? '—'}/20</td>`).join('')}
+            ${cols.map(s => {
+            const score = r.subjectScores?.[s];
+            const total = r.subjectTotals?.[s] || 30;
+            return `<td class="${HIDE_ON_LG.includes(s) ? 'd-none d-lg-table-cell' : ''}">${score ?? '—'}/${total}</td>`;
+        }).join('')}
             <td><strong>${r.totalScore}/${r.totalQuestions}</strong></td>
             <td>${pctBadge(r.percentage)}</td>
             <td class="text-muted d-none d-lg-table-cell" style="font-size:.8rem">${fmtDate(r.date)}</td>
@@ -242,7 +246,7 @@ const SUBJECT_CATS = {
     literature: ['arts'],
     government: ['arts'],
     crs: ['arts'],
-    economics: ['commercial'],
+    economics: ['arts', 'commercial'],
     commerce: ['commercial'],
     accounting: ['commercial']
 };
