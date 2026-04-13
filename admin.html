@@ -28,6 +28,12 @@
             min-height: 100vh;
         }
 
+        :focus-visible {
+            outline: 3px solid rgba(99, 102, 241, .45);
+            outline-offset: 2px;
+            border-radius: 8px;
+        }
+
         /* ── Top bar ── */
         .topbar {
             position: fixed;
@@ -125,6 +131,7 @@
             margin-left: var(--sidebar-width);
             padding-top: calc(var(--topbar-height) + 24px);
             padding: calc(var(--topbar-height) + 24px) 24px 24px;
+            max-width: 1600px;
         }
 
         /* ── Login card ── */
@@ -162,6 +169,12 @@
             color: #fff;
             position: relative;
             overflow: hidden;
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 30px rgba(15, 23, 42, .14);
         }
 
         .stat-card .bg-icon {
@@ -211,6 +224,7 @@
             padding: 24px;
             box-shadow: 0 1px 6px rgba(0, 0, 0, .06);
             margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
         }
 
         .section-card h5 {
@@ -228,6 +242,9 @@
             color: #64748b;
             border-bottom: 2px solid #e2e8f0;
             background: #f8fafc;
+            position: sticky;
+            top: 0;
+            z-index: 2;
         }
 
         .table td {
@@ -237,6 +254,16 @@
 
         .table tbody tr:hover {
             background: #f8fafc;
+        }
+
+        .table-responsive {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: auto;
+        }
+
+        .table-responsive table {
+            margin-bottom: 0;
         }
 
         /* ── Badges ── */
@@ -321,6 +348,11 @@
 
             .section-card {
                 padding: 16px 14px;
+            }
+
+            .table th,
+            .table td {
+                white-space: nowrap;
             }
 
             .stat-card {
