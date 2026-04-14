@@ -1,5 +1,5 @@
-// AceJAMB - Backend Server
-// =========================
+// Study With Prof Dudu - Backend Server
+// =====================================
 
 const express = require('express');
 const cors = require('cors');
@@ -29,18 +29,12 @@ function normalizeResultPayload(result) {
     const subjectTotals = {};
 
     Object.keys(subjectScoresIn).forEach((subject) => {
-        const score = Math.max(0, Math.round(Number(subjectScoresIn[subject]) || 0));
-        const total = Math.max(1, Math.round(Number(result.subjectTotals?.[subject]) || 0));
-        subjectScores[subject] = Math.min(score, total);
-        subjectTotals[subject] = total;
+        const score = Math.round(Number(subjectScoresIn[subject]) || 0);
+        subjectScores[subject] = Math.max(0, Math.min(100, score));
+        subjectTotals[subject] = 100;
     });
 
-    const totalQuestions = Math.max(
-        1,
-        Math.round(Number(result.totalQuestions)) ||
-        Object.values(subjectTotals).reduce((sum, val) => sum + val, 0) ||
-        400
-    );
+    const totalQuestions = 400;
     const totalScore = Object.values(subjectScores).reduce((sum, val) => sum + val, 0);
     const percentage = Math.round((totalScore / totalQuestions) * 100);
 
@@ -51,17 +45,8 @@ function normalizeResultPayload(result) {
         percentage,
         subjectScores,
         subjectTotals,
-        examTotalQuestions: Math.max(1, Math.round(Number(result.examTotalQuestions)) || 180),
         date: result.date || new Date().toISOString()
     };
-}
-
-function isEngineeringResult(result) {
-    return Array.isArray(result?.selectedSubjects) && result.selectedSubjects.includes('maths');
-}
-
-function isMedicalResult(result) {
-    return Array.isArray(result?.selectedSubjects) && result.selectedSubjects.includes('biology');
 }
 
 // ─── Middleware ───────────────────────────────────────────────────────────────
@@ -102,7 +87,7 @@ app.get('/api/secret/export-csv', (req, res) => {
         csv += `"${r.userName}","${r.userEmail}","${r.category}",${r.totalScore},${r.totalQuestions},${r.timeSpent || 'N/A'},"${r.date}"\n`;
     });
     res.setHeader('Content-Type', 'text/csv');
-    res.setHeader('Content-Disposition', 'attachment; filename=acejamb_results.csv');
+    res.setHeader('Content-Disposition', 'attachment; filename=quiz_results.csv');
     res.send(csv);
 });
 
@@ -238,23 +223,21 @@ app.post('/api/admin/login', (req, res) => {
 
 app.get('/api/admin/stats', (_req, res) => {
     const results = readResults();
-    const engineeringResults = results.filter(isEngineeringResult);
-    const medicalResults = results.filter(isMedicalResult);
-    const avgEngineering = engineeringResults.length
-        ? Math.round(engineeringResults.reduce((sum, x) => sum + Math.round(((x.totalScore || 0) / (x.totalQuestions || 400)) * 100), 0) / engineeringResults.length)
-        : 0;
-    const avgMedical = medicalResults.length
-        ? Math.round(medicalResults.reduce((sum, x) => sum + Math.round(((x.totalScore || 0) / (x.totalQuestions || 400)) * 100), 0) / medicalResults.length)
-        : 0;
+    const avg = cat => {
+        const r = results.filter(x => x.category === cat);
+        return r.length
+            ? Math.round(r.reduce((s, x) => s + Math.round(((x.totalScore || 0) / (x.totalQuestions || 400)) * 100), 0) / r.length)
+            : 0;
+    };
     res.json({
         totalStudents: readUsers().length,
         completedQuizzes: results.length,
-        engineeringStudents: engineeringResults.length,
-        medicalStudents: medicalResults.length,
-        avgEngineeringScore: avgEngineering,
-        avgMedicalScore: avgMedical,
-        scienceStudents: results.length,
-        avgScienceScore: avgEngineering
+        scienceStudents: results.filter(r => r.category === 'science').length,
+        artsStudents: results.filter(r => r.category === 'arts').length,
+        commercialStudents: results.filter(r => r.category === 'commercial').length,
+        avgScienceScore: avg('science'),
+        avgArtsScore: avg('arts'),
+        avgCommercialScore: avg('commercial')
     });
 });
 

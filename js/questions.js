@@ -1,4 +1,4 @@
-// AceJAMB - Questions Database
+// Study With Prof Dudu - Questions Database
 // Updated April 2026 - All questions organized by subject with correct answers
 
 // ============================================================
@@ -439,16 +439,12 @@ const questionsData = {
 // ============================================================
 
 const MAX_MOCK_SUBJECTS = 4;
-const SUBJECT_TARGETS = {
-    english: 60,
-    maths: 40,
-    physics: 40,
-    biology: 40,
-    chemistry: 40
-};
+const QUESTIONS_PER_SUBJECT = 30;
 
 const REQUIRED_SUBJECTS = {
-    science: ['english', 'physics']
+    science: ['english', 'physics'],
+    arts: ['english'],
+    commercial: ['english']
 };
 
 function getAvailableSubjects(category) {
@@ -457,10 +453,6 @@ function getAvailableSubjects(category) {
 
 function getRequiredSubjects(category) {
     return REQUIRED_SUBJECTS[category] || ['english'];
-}
-
-function getSubjectTargetCount(subjectKey) {
-    return SUBJECT_TARGETS[subjectKey] || 40;
 }
 
 function getDefaultSubjectSelection(category) {
@@ -481,7 +473,7 @@ function shuffleQuestions(items) {
 }
 
 function getAllQuestions(category, selectedSubjects = null) {
-    const subjects = questionsData[category] || {};
+    const subjects = questionsData[category];
     let allQuestions = [];
     const subjectKeys = Array.isArray(selectedSubjects) && selectedSubjects.length
         ? selectedSubjects
@@ -490,7 +482,7 @@ function getAllQuestions(category, selectedSubjects = null) {
     for (const subjectKey of subjectKeys) {
         const subject = subjects[subjectKey];
         if (!subject) continue;
-        subject.questions.slice(0, getSubjectTargetCount(subjectKey)).forEach((q) => {
+        subject.questions.slice(0, QUESTIONS_PER_SUBJECT).forEach((q) => {
             allQuestions.push({
                 ...q,
                 subject: subjectKey,
@@ -503,7 +495,7 @@ function getAllQuestions(category, selectedSubjects = null) {
 }
 
 function getSubjectNames(category, selectedSubjects = null) {
-    const subjects = questionsData[category] || {};
+    const subjects = questionsData[category];
     const names = {};
     const subjectKeys = Array.isArray(selectedSubjects) && selectedSubjects.length
         ? selectedSubjects
@@ -517,7 +509,7 @@ function getSubjectNames(category, selectedSubjects = null) {
 }
 
 function getTotalQuestions(category, selectedSubjects = null) {
-    const subjects = questionsData[category] || {};
+    const subjects = questionsData[category];
     let total = 0;
     const subjectKeys = Array.isArray(selectedSubjects) && selectedSubjects.length
         ? selectedSubjects
@@ -525,7 +517,7 @@ function getTotalQuestions(category, selectedSubjects = null) {
 
     for (const subjectKey of subjectKeys) {
         if (!subjects[subjectKey]) continue;
-        total += getSubjectTargetCount(subjectKey);
+        total += Math.min(QUESTIONS_PER_SUBJECT, subjects[subjectKey].questions.length);
     }
     return total;
 }

@@ -4,232 +4,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AceJAMB</title>
+    <title>Study With Prof Dudu - Quiz Portal</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark mock-nav fixed-top">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark glass-nav fixed-top">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center gap-3" href="#">
-                <span class="brand-icon"><i class="fas fa-atom"></i></span>
-                <span>
-                    <span class="d-block brand-title">AceJAMB</span>
-                    <small class="brand-subtitle">UTME mock test platform</small>
-                </span>
+            <a class="navbar-brand" href="#">
+                <div class="brand-logo">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <span class="brand-text">Prof Dudu</span>
             </a>
-
-            <div class="ms-auto d-flex align-items-center gap-2">
-                <span id="userDisplay" class="user-chip d-none"><i class="fas fa-user-circle me-1"></i><span
-                        id="userName"></span></span>
-                <button id="logoutBtn" class="btn btn-outline-light btn-sm d-none" onclick="logout()"><i
-                        class="fas fa-right-from-bracket me-1"></i>Logout</button>
+            <div class="navbar-nav ms-auto d-flex flex-row align-items-center gap-2">
+                <span id="userDisplay" class="nav-link text-white d-none user-badge">
+                    <i class="fas fa-user-circle me-1"></i>
+                    <span id="userName"></span>
+                </span>
+                <button id="logoutBtn" class="btn btn-glass btn-sm d-none" onclick="logout()">
+                    <i class="fas fa-sign-out-alt me-1"></i>Logout
+                </button>
             </div>
         </div>
     </nav>
 
-    <main class="app-shell">
+    <!-- Hero Background -->
+    <div class="hero-bg"></div>
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
         <div class="container">
-            <section id="deviceLockedSection" class="screen-card d-none">
-                <div class="screen-center">
-                    <div class="glass-card text-center p-5">
-                        <div class="icon-badge danger mx-auto mb-4"><i class="fas fa-lock"></i></div>
-                        <h1 class="h3 fw-bold mb-2">Access locked</h1>
-                        <p class="text-muted mb-0">This device has already been used for the mock test.</p>
-                    </div>
-                </div>
-            </section>
 
-            <section id="authSection" class="screen-card">
-                <div class="row align-items-center g-4 min-vh-100 py-5">
-                    <div class="col-lg-6">
-                        <div class="hero-panel">
-                            <div class="eyebrow mb-3">AceJAMB Mock Test</div>
-                            <h1 class="display-5 fw-black mb-3">A cleaner, more professional UTME practice platform.
-                            </h1>
-                            <p class="lead text-muted mb-4">Simple, focused, and built for exam readiness. Choose
-                                Engineering or Medical, then continue to the warning page before the exam starts.</p>
-                            <div class="d-flex flex-wrap gap-2">
-                                <span class="pill-info"><i class="fas fa-clock me-2"></i>90 Minutes</span>
-                                <span class="pill-info"><i class="fas fa-layer-group me-2"></i>4 Subjects</span>
-                                <span class="pill-info"><i class="fas fa-graduation-cap me-2"></i>Engineering or
-                                    Medical</span>
+            <!-- Device Locked Screen -->
+            <div id="deviceLockedSection" class="d-none fade-in">
+                <div class="row justify-content-center align-items-center min-vh-100">
+                    <div class="col-11 col-sm-8 col-md-6 col-lg-5 col-xl-4">
+                        <div class="text-center mb-4 text-white">
+                            <div class="logo-circle mx-auto mb-3" style="background:rgba(255,255,255,0.15)">
+                                <i class="fas fa-lock fa-3x"></i>
                             </div>
+                            <h1 class="display-6 fw-bold">Access Denied</h1>
+                            <p class="opacity-75">Study With Prof Dudu Quiz Portal</p>
+                        </div>
+                        <div class="auth-card text-center">
+                            <div class="mb-3">
+                                <span style="font-size:3rem;">&#128274;</span>
+                            </div>
+                            <h4 class="fw-bold text-danger mb-3">Device Already Used</h4>
+                            <p class="text-muted mb-0">
+                                This device has already been used to sit this examination.
+                            </p>
+                            <p class="text-muted mt-2">
+                                Each device may only take the exam <strong>once</strong>.
+                                If you believe this is an error, please contact your supervisor.
+                            </p>
                         </div>
                     </div>
+                </div>
+            </div>
 
-                    <div class="col-lg-5 offset-lg-1">
-                        <div class="auth-panel-wrap">
-                            <div class="glass-card auth-panel overflow-hidden">
-                                <div class="auth-header">
-                                    <div class="auth-mark"><i class="fas fa-clipboard-check"></i></div>
-                                    <div>
-                                        <div class="auth-kicker">AceJAMB account</div>
-                                        <h3 class="auth-title mb-1">Start your mock test</h3>
-                                        <p class="auth-subtitle mb-0">Login or create an account to continue.</p>
-                                    </div>
+            <!-- Auth Section -->
+            <div id="authSection" class="fade-in">
+                <div class="row justify-content-center align-items-center min-vh-100">
+                    <div class="col-11 col-sm-8 col-md-6 col-lg-5 col-xl-4">
+                        <!-- Welcome Header -->
+                        <div class="text-center mb-4 text-white">
+                            <div class="logo-circle mx-auto mb-3">
+                                <i class="fas fa-graduation-cap fa-3x"></i>
+                            </div>
+                            <h1 class="display-6 fw-bold">Welcome!</h1>
+                            <p class="opacity-75">Study With Prof Dudu Quiz Portal</p>
+                        </div>
+
+                        <div class="auth-card">
+                            <!-- Login Form -->
+                            <div id="loginForm">
+                                <h4 class="text-center mb-4 fw-semibold">
+                                    <i class="fas fa-sign-in-alt me-2 text-primary"></i>Quiz Portal
+                                </h4>
+                                <div class="form-floating mb-3">
+                                    <input type="email" id="loginEmail" class="form-control"
+                                        placeholder="name@example.com">
+                                    <label><i class="fas fa-envelope me-2"></i>Email Address</label>
                                 </div>
-                                <div class="p-3 p-md-4 p-lg-5 pt-3 pt-lg-4">
-                                    <div id="loginForm">
-                                        <div class="mb-4">
-                                            <h4 class="fw-bold mb-2">Welcome back</h4>
-                                            <p class="auth-help mb-0">Sign in to continue the mock test.</p>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Email address</label>
-                                            <div class="input-group input-icon-group">
-                                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                                <input type="email" id="loginEmail" class="form-control form-control-lg"
-                                                    placeholder="name@example.com">
-                                            </div>
-                                        </div>
-                                        <div class="mb-4">
-                                            <label class="form-label">Password</label>
-                                            <div class="input-group input-icon-group">
-                                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                                <input type="password" id="loginPassword"
-                                                    class="form-control form-control-lg" placeholder="••••••••">
-                                            </div>
-                                        </div>
-                                        <button class="btn btn-primary btn-lg w-100 mb-3"
-                                            onclick="login()">Login</button>
-                                        <p class="auth-switch text-center mb-0">No account yet? <a href="#"
-                                                onclick="showRegister(); return false;">Create one</a></p>
-                                    </div>
-
-                                    <div id="registerForm" class="d-none">
-                                        <div class="mb-4">
-                                            <h4 class="fw-bold mb-2">Create account</h4>
-                                            <p class="auth-help mb-0">Register to start your AceJAMB mock.</p>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Full name</label>
-                                            <div class="input-group input-icon-group">
-                                                <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                                <input type="text" id="regName" class="form-control form-control-lg"
-                                                    placeholder="Student name">
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Email address</label>
-                                            <div class="input-group input-icon-group">
-                                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                                <input type="email" id="regEmail" class="form-control form-control-lg"
-                                                    placeholder="name@example.com">
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Password</label>
-                                            <div class="input-group input-icon-group">
-                                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                                <input type="password" id="regPassword"
-                                                    class="form-control form-control-lg"
-                                                    placeholder="Create a password">
-                                            </div>
-                                        </div>
-                                        <div class="mb-4">
-                                            <label class="form-label">Confirm password</label>
-                                            <div class="input-group input-icon-group">
-                                                <span class="input-group-text"><i
-                                                        class="fas fa-shield-halved"></i></span>
-                                                <input type="password" id="regConfirmPassword"
-                                                    class="form-control form-control-lg" placeholder="Confirm password">
-                                            </div>
-                                        </div>
-                                        <button class="btn btn-success btn-lg w-100 mb-3" onclick="register()">Create
-                                            account</button>
-                                        <p class="auth-switch text-center mb-0">Already registered? <a href="#"
-                                                onclick="showLogin(); return false;">Login here</a></p>
-                                    </div>
+                                <div class="form-floating mb-4">
+                                    <input type="password" id="loginPassword" class="form-control"
+                                        placeholder="Password">
+                                    <label><i class="fas fa-lock me-2"></i>Password</label>
+                                </div>
+                                <button class="btn btn-primary btn-lg w-100 mb-3 btn-glow" onclick="login()">
+                                    <i class="fas fa-arrow-right me-2"></i>Login
+                                </button>
+                                <div class="text-center">
+                                    <span class="text-muted">New student?</span>
+                                    <a href="#" class="fw-semibold text-decoration-none ms-1"
+                                        onclick="showRegister()">Create Account</a>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
-            <section id="selectionSection" class="screen-card d-none">
-                <div class="section-heading text-center text-white py-4 py-lg-5">
-                    <div class="eyebrow mb-3">Category selection</div>
-                    <h2 class="display-6 fw-bold mb-3">Choose your Category</h2>
-                    <p class="text-white-50 mb-0">Engineering or Medical</p>
-                </div>
-
-                <div class="row g-4 align-items-stretch selection-layout">
-                    <div class="col-lg-7">
-                        <div class="glass-card p-4 h-100 selection-main-card">
-                            <p class="section-label mb-1">Categories</p>
-                            <h3 class="h4 fw-bold mb-4">Select one category</h3>
-
-                            <div id="scienceSubjectSelection" class="mb-3"></div>
-
-                            <button id="startScienceBtn" class="btn btn-primary btn-lg w-100"
-                                onclick="confirmStartQuiz()">
-                                <i class="fas fa-arrow-right me-2"></i>Proceed to exam
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-5">
-                        <div class="glass-card p-4 h-100 selection-rules-card">
-                            <h4 class="fw-bold mb-3">Rules</h4>
-                            <ul class="rule-list mb-0">
-                                <li>One attempt only.</li>
-                                <li>Timer starts on the final warning page.</li>
-                                <li>English and Physics are compulsory.</li>
-                                <li>Engineering: Physics, Chemistry, Mathematics, English.</li>
-                                <li>Medical: Physics, Chemistry, Biology, English.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <div class="modal fade" id="confirmStartModal" tabindex="-1">
-                <div class="modal-dialog modal-dialog-centered modal-lg">
-                    <div class="modal-content modal-card">
-                        <div class="modal-header border-0">
-                            <div>
-                                <div class="eyebrow mb-2">Final warning</div>
-                                <h5 class="modal-title fw-bold mb-0">Read before you start</h5>
-                            </div>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body pt-0">
-                            <div class="row g-4 align-items-start">
-                                <div class="col-lg-7">
-                                    <div class="detail-card accent h-100">
-                                        <h4 class="fw-bold mb-3">Selected subjects</h4>
-                                        <div class="mb-2 text-muted">Category: <strong
-                                                id="warningTrackLabel">Engineering</strong></div>
-                                        <div id="warningSelectedSubjectsList" class="d-flex flex-wrap gap-2"></div>
-                                        <div class="mt-4">
-                                            <div class="d-flex justify-content-between"><span>Attempt
-                                                    policy</span><strong>One attempt only</strong></div>
-                                        </div>
-                                    </div>
+                            <!-- Register Form -->
+                            <div id="registerForm" class="d-none">
+                                <h4 class="text-center mb-4 fw-semibold">
+                                    <i class="fas fa-user-plus me-2 text-success"></i>Create Account
+                                </h4>
+                                <div class="form-floating mb-3">
+                                    <input type="text" id="regName" class="form-control" placeholder="Full Name">
+                                    <label><i class="fas fa-user me-2"></i>Full Name</label>
                                 </div>
-
-                                <div class="col-lg-5">
-                                    <div class="detail-card h-100">
-                                        <h4 class="fw-bold mb-3">Final checks</h4>
-                                        <ul class="rule-list mb-4">
-                                            <li>Make sure you are ready.</li>
-                                            <li>Do not refresh the page while writing.</li>
-                                            <li>The timer starts as soon as you begin.</li>
-                                            <li>Submit only when you are done.</li>
-                                        </ul>
-                                        <div class="d-grid gap-2">
-                                            <button class="btn btn-outline-secondary btn-lg"
-                                                data-bs-dismiss="modal">Back to subjects</button>
-                                            <button id="modalProceedBtn" type="button" class="btn btn-primary btn-lg"
-                                                onclick="startQuiz()">Proceed to
-                                                exam</button>
-                                        </div>
-                                    </div>
+                                <div class="form-floating mb-3">
+                                    <input type="email" id="regEmail" class="form-control"
+                                        placeholder="name@example.com">
+                                    <label><i class="fas fa-envelope me-2"></i>Email Address</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="password" id="regPassword" class="form-control" placeholder="Password">
+                                    <label><i class="fas fa-lock me-2"></i>Password</label>
+                                </div>
+                                <div class="form-floating mb-4">
+                                    <input type="password" id="regConfirmPassword" class="form-control"
+                                        placeholder="Confirm Password">
+                                    <label><i class="fas fa-check-circle me-2"></i>Confirm Password</label>
+                                </div>
+                                <button class="btn btn-success btn-lg w-100 mb-3 btn-glow" onclick="register()">
+                                    <i class="fas fa-user-plus me-2"></i>Register
+                                </button>
+                                <div class="text-center">
+                                    <span class="text-muted">Already registered?</span>
+                                    <a href="#" class="fw-semibold text-decoration-none ms-1"
+                                        onclick="showLogin()">Login here</a>
                                 </div>
                             </div>
                         </div>
@@ -237,110 +151,371 @@
                 </div>
             </div>
 
-            <section id="quizSection" class="screen-card d-none">
-                <div class="quiz-top glass-card p-3 p-lg-4 mb-4">
-                    <div class="row align-items-center g-3">
-                        <div class="col-md-4">
-                            <div class="status-tag"><i class="fas fa-book-open me-2"></i><span
-                                    id="currentSubject"></span></div>
-                        </div>
-                        <div class="col-md-4 text-center">
-                            <div class="timer-chip" id="timerBox"><i class="fas fa-clock me-2"></i><span
-                                    id="timerDisplay">90:00</span></div>
-                        </div>
-                        <div class="col-md-4 text-md-end">
-                            <div class="status-tag status-right"><span id="questionProgress">1/1</span></div>
-                        </div>
-                    </div>
-                    <div class="progress mt-3 quiz-progress">
-                        <div id="progressBar" class="progress-bar"></div>
-                    </div>
-                </div>
+            <!-- Category Selection Section -->
+            <div id="categorySection" class="d-none fade-in">
+                <div class="category-page py-5">
+                    <div class="text-center mb-5">
+                        <h1 class="display-5 fw-bold text-white mb-3">
+                            <i class="fas fa-book-reader me-3"></i>Select Your Subjects
+                        </h1>
+                        <p class="lead text-white opacity-75">Choose your department, then pick exactly 4 subjects
+                            total.
+                            English is compulsory for everyone, and Physics is also compulsory for Science.</p>
 
-                <div class="row g-4">
-                    <div class="col-lg-8">
-                        <div class="glass-card p-4 p-lg-5 h-100 question-panel">
-                            <div class="question-head mb-3">
-                                <span id="questionNumber" class="question-badge">Question 1</span>
+                        <div class="d-flex justify-content-center gap-3 flex-wrap mt-4">
+                            <div class="info-badge">
+                                <i class="fas fa-clock me-2"></i>1 Hour 30 Minutes
                             </div>
-                            <h3 id="questionText" class="question-text mb-4"></h3>
-                            <div id="optionsContainer" class="option-grid"></div>
-
-                            <div class="d-flex gap-2 gap-lg-3 justify-content-between mt-4 flex-wrap">
-                                <button id="prevBtn" class="btn btn-outline-light px-4" onclick="previousQuestion()"><i
-                                        class="fas fa-chevron-left me-2"></i>Previous</button>
-                                <button id="submitQuizBtn" class="btn btn-success px-4" onclick="submitQuiz()"><i
-                                        class="fas fa-paper-plane me-2"></i>Submit</button>
-                                <button id="nextBtn" class="btn btn-outline-light px-4" onclick="nextQuestion()">Next<i
-                                        class="fas fa-chevron-right ms-2"></i></button>
+                            <div class="info-badge warning">
+                                <i class="fas fa-exclamation-triangle me-2"></i>4 Subjects Only
+                            </div>
+                            <div class="info-badge warning">
+                                <i class="fas fa-language me-2"></i>English Compulsory
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-lg-4">
-                        <div class="glass-card p-4 h-100">
-                            <div class="d-flex align-items-center justify-content-between mb-3">
-                                <h4 class="fw-bold mb-0">Navigator</h4>
-                                <span class="text-white-50 small">Answered items glow up</span>
+                    <div class="row justify-content-center g-4 category-row">
+                        <!-- Science Card -->
+                        <div class="col-12 col-md-6 col-xl-4">
+                            <div id="scienceCard" class="category-card science-card">
+                                <div class="card-shine"></div>
+                                <div class="category-content">
+                                    <div class="category-icon-wrapper science-icon-bg">
+                                        <i class="fas fa-atom fa-3x"></i>
+                                    </div>
+                                    <h2 class="mt-4 mb-3 fw-bold">Science</h2>
+                                    <p class="text-muted mb-4">Challenge yourself with scientific knowledge</p>
+
+                                    <div class="subjects-grid mb-4">
+                                        <span class="subject-tag science-tag"><i
+                                                class="fas fa-calculator me-1"></i>Maths</span>
+                                        <span class="subject-tag science-tag"><i
+                                                class="fas fa-language me-1"></i>English</span>
+                                        <span class="subject-tag science-tag"><i
+                                                class="fas fa-bolt me-1"></i>Physics</span>
+                                        <span class="subject-tag science-tag"><i
+                                                class="fas fa-dna me-1"></i>Biology</span>
+                                        <span class="subject-tag science-tag"><i
+                                                class="fas fa-flask me-1"></i>Chemistry</span>
+                                    </div>
+
+                                    <p class="subject-rule text-muted mb-2">
+                                        English and Physics are compulsory. Choose 2 more subjects.
+                                    </p>
+
+                                    <div id="scienceSubjectSelection" class="subject-selection mb-4"></div>
+
+                                    <div id="scienceSelectionStatus" class="selection-status mb-4"></div>
+
+                                    <div class="question-count mb-4">
+                                        <span class="count-number">120</span>
+                                        <span class="count-text">Questions</span>
+                                    </div>
+
+                                    <button class="btn btn-science btn-lg w-100" onclick="confirmStartQuiz('science')">
+                                        <i class="fas fa-rocket me-2"></i>Start Science Quiz
+                                    </button>
+                                </div>
+                                <div class="locked-overlay">
+                                    <i class="fas fa-lock fa-3x mb-3"></i>
+                                    <h4>LOCKED</h4>
+                                </div>
                             </div>
-                            <div id="questionNavigator" class="navigator-grid mb-3"></div>
-                            <div class="navigator-legend">
-                                <span><i class="fas fa-circle text-success me-1"></i>Answered</span>
-                                <span><i class="fas fa-circle text-warning me-1"></i>Current</span>
-                                <span><i class="fas fa-circle text-secondary me-1"></i>Pending</span>
+                        </div>
+
+                        <!-- Arts Card -->
+                        <div class="col-12 col-md-6 col-xl-4">
+                            <div id="artsCard" class="category-card arts-card">
+                                <div class="card-shine"></div>
+                                <div class="category-content">
+                                    <div class="category-icon-wrapper arts-icon-bg">
+                                        <i class="fas fa-palette fa-3x"></i>
+                                    </div>
+                                    <h2 class="mt-4 mb-3 fw-bold">Arts</h2>
+                                    <p class="text-muted mb-4">Explore your artistic and literary knowledge</p>
+
+                                    <div class="subjects-grid mb-4">
+                                        <span class="subject-tag arts-tag"><i
+                                                class="fas fa-calculator me-1"></i>Maths</span>
+                                        <span class="subject-tag arts-tag"><i
+                                                class="fas fa-language me-1"></i>English</span>
+                                        <span class="subject-tag arts-tag"><i
+                                                class="fas fa-book me-1"></i>Literature</span>
+                                        <span class="subject-tag arts-tag"><i
+                                                class="fas fa-landmark me-1"></i>Government</span>
+                                        <span class="subject-tag arts-tag"><i
+                                                class="fas fa-coins me-1"></i>Economics</span>
+                                        <span class="subject-tag arts-tag"><i class="fas fa-cross me-1"></i>CRS</span>
+                                    </div>
+
+                                    <p class="subject-rule text-muted mb-2">
+                                        English is compulsory. Choose 3 more subjects.
+                                    </p>
+
+                                    <div id="artsSubjectSelection" class="subject-selection mb-4"></div>
+
+                                    <div id="artsSelectionStatus" class="selection-status mb-4"></div>
+
+                                    <div class="question-count mb-4">
+                                        <span class="count-number">120</span>
+                                        <span class="count-text">Questions</span>
+                                    </div>
+
+                                    <button class="btn btn-arts btn-lg w-100" onclick="confirmStartQuiz('arts')">
+                                        <i class="fas fa-rocket me-2"></i>Start Arts Quiz
+                                    </button>
+                                </div>
+                                <div class="locked-overlay">
+                                    <i class="fas fa-lock fa-3x mb-3"></i>
+                                    <h4>LOCKED</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Commercial Card -->
+                        <div class="col-12 col-md-6 col-xl-4">
+                            <div id="commercialCard" class="category-card commercial-card">
+                                <div class="card-shine"></div>
+                                <div class="category-content">
+                                    <div class="category-icon-wrapper commercial-icon-bg">
+                                        <i class="fas fa-chart-line fa-3x"></i>
+                                    </div>
+                                    <h2 class="mt-4 mb-3 fw-bold">Commercial</h2>
+                                    <p class="text-muted mb-4">Master business, finance and commerce</p>
+
+                                    <div class="subjects-grid mb-4">
+                                        <span class="subject-tag commercial-tag"><i
+                                                class="fas fa-calculator me-1"></i>Maths</span>
+                                        <span class="subject-tag commercial-tag"><i
+                                                class="fas fa-language me-1"></i>English</span>
+                                        <span class="subject-tag commercial-tag"><i
+                                                class="fas fa-coins me-1"></i>Economics</span>
+                                        <span class="subject-tag commercial-tag"><i
+                                                class="fas fa-store me-1"></i>Commerce</span>
+                                        <span class="subject-tag commercial-tag"><i
+                                                class="fas fa-file-invoice-dollar me-1"></i>Accounting</span>
+                                    </div>
+
+                                    <p class="subject-rule text-muted mb-2">
+                                        English is compulsory. Choose 3 more subjects.
+                                    </p>
+
+                                    <div id="commercialSubjectSelection" class="subject-selection mb-4"></div>
+
+                                    <div id="commercialSelectionStatus" class="selection-status mb-4"></div>
+
+                                    <div class="question-count mb-4">
+                                        <span class="count-number">120</span>
+                                        <span class="count-text">Questions</span>
+                                    </div>
+
+                                    <button class="btn btn-commercial btn-lg w-100"
+                                        onclick="confirmStartQuiz('commercial')">
+                                        <i class="fas fa-rocket me-2"></i>Start Commercial Quiz
+                                    </button>
+                                </div>
+                                <div class="locked-overlay">
+                                    <i class="fas fa-lock fa-3x mb-3"></i>
+                                    <h4>LOCKED</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Already Attempted Message -->
+                    <div id="alreadyAttempted" class="d-none mt-5">
+                        <div class="completed-banner">
+                            <i class="fas fa-check-circle fa-3x mb-3"></i>
+                            <h4>Quiz Already Completed!</h4>
+                            <p id="attemptedMessage" class="mb-0"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Section -->
+            <div id="quizSection" class="d-none fade-in">
+                <!-- Quiz Header -->
+                <div class="quiz-header-bar">
+                    <div class="row align-items-center">
+                        <div class="col-4 col-md-4">
+                            <div class="subject-indicator">
+                                <i class="fas fa-book-open me-2 d-none d-sm-inline"></i>
+                                <span id="currentSubject"></span>
+                            </div>
+                        </div>
+                        <div class="col-4 col-md-4 text-center">
+                            <div class="timer-box" id="timerBox">
+                                <i class="fas fa-clock me-1"></i>
+                                <span id="timerDisplay">90:00</span>
+                            </div>
+                        </div>
+                        <div class="col-4 col-md-4 text-end">
+                            <div class="progress-indicator">
+                                <span id="questionProgress">1/50</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="progress quiz-progress mt-3">
+                        <div id="progressBar" class="progress-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Question Container -->
+                <div class="quiz-container py-4">
+                    <div class="question-card">
+                        <div class="question-header">
+                            <span class="question-badge" id="questionNumber">Question 1</span>
+                        </div>
+                        <div class="question-body">
+                            <p id="questionText" class="question-text"></p>
+                            <div id="optionsContainer" class="options-grid"></div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <div class="quiz-nav mt-4">
+                        <button id="prevBtn" class="btn btn-nav btn-prev" onclick="previousQuestion()">
+                            <i class="fas fa-chevron-left me-1 me-sm-2"></i><span
+                                class="d-none d-sm-inline">Previous</span>
+                        </button>
+                        <button id="submitQuizBtn" class="btn btn-submit-main" onclick="submitQuiz()">
+                            <i class="fas fa-paper-plane me-1 me-sm-2"></i><span class="btn-text">Submit</span>
+                        </button>
+                        <button id="nextBtn" class="btn btn-nav btn-next" onclick="nextQuestion()">
+                            <span class="d-none d-sm-inline">Next</span><i
+                                class="fas fa-chevron-right ms-1 ms-sm-2"></i>
+                        </button>
+                    </div>
+
+                    <!-- Question Navigator -->
+                    <div class="navigator-card mt-4">
+                        <div class="navigator-header" data-bs-toggle="collapse" data-bs-target="#navCollapse">
+                            <i class="fas fa-th-large me-2"></i>Question Navigator
+                            <i class="fas fa-chevron-down ms-auto"></i>
+                        </div>
+                        <div class="collapse show" id="navCollapse">
+                            <div class="navigator-body">
+                                <div id="questionNavigator" class="question-nav-grid"></div>
+                                <div class="navigator-legend mt-3">
+                                    <span class="legend-item"><span class="legend-dot answered"></span>Answered</span>
+                                    <span class="legend-item"><span
+                                            class="legend-dot unanswered"></span>Unanswered</span>
+                                    <span class="legend-item"><span class="legend-dot current"></span>Current</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
 
-            <section id="resultsSection" class="screen-card d-none">
-                <div class="row justify-content-center py-5">
-                    <div class="col-xl-9">
-                        <div class="glass-card p-4 p-lg-5 text-center">
-                            <div id="trophyCircle" class="trophy-badge mx-auto mb-4"><i id="resultIcon"
-                                    class="fas fa-trophy"></i></div>
-                            <h2 class="fw-bold mb-2">Quiz completed</h2>
-                            <p id="resultMessage" class="text-muted mb-3"></p>
-                            <div id="finalScoreDisplay" class="score-pill mx-auto mb-5">Final Score: 0/180</div>
-
-                            <div class="text-start">
-                                <h4 class="fw-bold mb-3">Subject breakdown</h4>
-                                <div id="subjectBreakdown" class="breakdown-stack"></div>
+            <!-- Results Section -->
+            <div id="resultsSection" class="d-none fade-in">
+                <div class="py-5">
+                    <div class="results-card">
+                        <div class="results-header">
+                            <div class="trophy-circle" id="trophyCircle">
+                                <i id="resultIcon" class="fas fa-trophy"></i>
                             </div>
+                            <h1 class="mt-4 mb-2 fw-bold">Quiz Completed!</h1>
+                            <p id="resultMessage" class="lead text-muted"></p>
+                            <h3 id="finalScoreDisplay" class="final-score-pill mb-0">Final Score: 0/400</h3>
+                        </div>
+
+                        <div class="breakdown-section">
+                            <h5 class="mb-4"><i class="fas fa-chart-bar me-2"></i>Subject Breakdown</h5>
+                            <div id="subjectBreakdown" class="breakdown-grid"></div>
                         </div>
                     </div>
-                </div>
-            </section>
-        </div>
-    </main>
-
-    <div class="modal fade" id="confirmSubmitModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content modal-card">
-                <div class="modal-header border-0">
-                    <h5 class="modal-title fw-bold"><i class="fas fa-paper-plane me-2 text-primary"></i>Submit quiz?
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <p id="submitWarning" class="mb-0">Are you sure you want to submit?</p>
-                </div>
-                <div class="modal-footer border-0">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Continue</button>
-                    <button type="button" class="btn btn-primary" onclick="confirmSubmit()">Yes, submit</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container text-center">
+            <p class="mb-0">
+                <i class="fas fa-graduation-cap me-2"></i>
+                &copy; 2026 Study With Prof Dudu. All Rights Reserved.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
     <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
-        <div id="toast" class="toast border-0" role="alert">
+        <div id="toast" class="toast custom-toast" role="alert">
             <div class="toast-header">
-                <strong class="me-auto" id="toastTitle">Notice</strong>
+                <i class="fas fa-bell me-2 text-primary"></i>
+                <strong class="me-auto" id="toastTitle">Notification</strong>
                 <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
             </div>
             <div class="toast-body" id="toastMessage"></div>
+        </div>
+    </div>
+
+    <!-- Confirm Start Modal -->
+    <div class="modal fade" id="confirmStartModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content custom-modal">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title">
+                        <i class="fas fa-flag-checkered me-2 text-success"></i>Ready to Begin?
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-3">You are about to start the <strong id="startCategoryName"></strong> quiz.</p>
+                    <div class="mb-3">
+                        <div class="fw-semibold mb-2">Selected subjects</div>
+                        <div id="selectedSubjectsList" class="selected-subjects-list"></div>
+                    </div>
+                    <div class="alert alert-warning mb-0">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Important:</strong> You only get <strong>one attempt</strong>. The 1 hour 30 minutes
+                        timer
+                        starts immediately. Make sure you are ready!
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Cancel
+                    </button>
+                    <button type="button" class="btn btn-success btn-glow" onclick="confirmStartQuiz()">
+                        <i class="fas fa-play me-2"></i>Yes, Start Now!
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Submit Modal -->
+    <div class="modal fade" id="confirmSubmitModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content custom-modal">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title">
+                        <i class="fas fa-paper-plane me-2 text-primary"></i>Submit Quiz?
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="submitWarning" class="mb-3">Are you sure you want to submit your quiz?</p>
+                    <div class="alert alert-warning mb-0">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Warning:</strong> You cannot change answers after submission!
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-arrow-left me-2"></i>Continue Quiz
+                    </button>
+                    <button type="button" class="btn btn-success btn-glow" onclick="confirmSubmit()">
+                        <i class="fas fa-check me-2"></i>Yes, Submit
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
