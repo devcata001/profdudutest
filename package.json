@@ -1,7 +1,7 @@
 {
-  "name": "profdudutest",
+  "name": "acejamb",
   "version": "1.0.0",
-  "description": "Study With Prof Dudu - Quiz Application",
+  "description": "AceJAMB UTME Mock Test App",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
